@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles2.css">
+    <link rel="stylesheet" href="media.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&family=Mynerve&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src='https://kit.fontawesome.com/4c729db828.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <title>VigGo Travel Booking</title>
+</head>
+
+<body>
+<!--NAVBAR-->
+<header class="navbar-container">
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-transparent">
+            <div class="container-fluid">
+                <i class="fa-regular fa-map"></i>
+                <a class="navbar-brand" href="#">
+                    <h3 class="heading-logo">VigGo<span>Travels</span></h3>
+                </a>
+                <div>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" aria-label="Search"/>
+                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    </form>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Book</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Explore</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                More
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">About Us</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-signup">
+                            <a class="nav-link" href="signup.html">Sign Up</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+   </header>
+
+<!--CAOURSEL-->
+<div class="home-section">
+        <div class="container-fluid gx-0"> 
+            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="home-content img-1">
+                            <div class ="content-home">
+                                <h3 class ="heading-home">Placeholder</h3>
+                                <h2 class ="sub-heading-home">JAPAN</h2>
+                                <a href="#" class = "btn-home">Book Now</a> </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="home-content img-2">
+                            <div class ="content-home">
+                                <h2 class ="heading-home">Placeholder</h2>
+                                <h2 class ="sub-heading-home">CEBU</h2>
+                                <a href="#" class = "btn-home">Book Now</a> </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <div class="home-content img-3">
+                            <div class ="content-home">
+                                <h2 class ="heading-home">Placeholder</h2>
+                                <h2 class ="sub-heading-home">SIQUIJOR</h2>
+                                <a href="#" class = "btn-home">Book Now</a> </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+<!--SEARCH FLUGHT-->
+<div class="booking-section">
+        <div class="selection-container"> 
+            <form action="/search-flights" method="GET" class="w-100">
+                
+                <div class="d-flex align-items-center mb-3">
+                    <span class="text-warning me-2" style="font-size: 1.2rem;">&#9992;</span>
+                    <span class="fw-bold me-4">Flight</span>
+                    
+                    <div class="dropdown">
+                        <button class="btn btn-sm dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #007bff; border-color: #007bff;">
+                            Round-trip
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">One Way</a></li>
+                            <li><a class="dropdown-item" href="#">Multi-City</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row g-0 rounded-3 shadow-lg overflow-hidden">
+
+                    <div class="col-6 col-lg-3 border-end"> <div class="p-3 bg-white h-100 position-relative">
+                            <label for="from-input" class="form-label mb-0 small text-muted">From</label>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <input type="text" class="form-control border-0 p-0" id="from-input" name="from" placeholder="Manila MNL" required>
+                                <button class="btn btn-sm p-0 me-2 text-muted" type="button" aria-label="Clear From field">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <button class="btn btn-light rounded-circle p-1" type="button" style="width: 30px; height: 30px;" aria-label="Swap origin and destination">
+                                    &#x21C6;
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-lg-3 border-end"> <div class="p-3 bg-white h-100">
+                            <label for="to-input" class="form-label mb-0 small text-muted">To</label>
+                            <input type="text" class="form-control border-0 p-0" id="to-input" name="to" placeholder="Tokyo, JPN" required>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-lg-2 border-end"> <div class="p-3 bg-white h-100">
+                            <label for="depart-date" class="form-label mb-0 small text-muted">Depart</label>
+                            <input type="date" class="form-control border-0 p-0 " id="depart-date" name="depart" required>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-lg-2 border-end"> <div class="p-3 bg-white h-100">
+                            <label for="return-date" class="form-label mb-0 small text-muted">Return</label>
+                            <input type="date" class="form-control border-0 p-0 text-muted" id="return-date" name="return" placeholder="Returning on">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2"> <button class="btn btn-primary btn-lg rounded-0 w-100 h-100 text-white" type="submit">
+                         Search flights </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!--TOP PICKS SECTION-->
+<div class="top-picks-section">
+    <div class="container">
+        
+        <div class="row mb-3">
+            
+           <div class="col-lg-6">
+                <div class="card card-hover-effect h-100">
+                    
+                    <div class="position-relative">
+                        <img src="pictures/Boracay/IMG_4335-1.jpg" class="card-img-top card-one" alt="Boracay Beach">
+                        
+                        <div class="booking-overlay">
+                            <a href="#booking-page" class="btn btn-lg btn-warning book-now-btn">
+                                Book Now
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body p-1">
+                        
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            
+                            <div class="d-flex align-items-center">
+                                <i class="fa-sharp fa-solid fa-location-dot me-1 text-danger small-icon"></i>
+                                <h6 class="card-title mb-0 small-title">Boracay Island, Aklan, PH</h6>
+                            </div>
+                            
+                            <a class="btn btn-sm ratings-button" data-bs-toggle="modal" data-bs-target="#ratingsModal">
+                                <i class="fa-solid fa-star me-1"></i> 4.6
+                            </a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2>Top Picks this Month</h2>
+                <p>
+                Discover our handpicked destinations and tour packages specially selected for this month. 
+                From relaxing beaches to thrilling adventures and cultural escapes, 
+                these top picks highlight the most popular and highly recommended experiences right now. 
+                Check back often as we update this list with fresh deals and exciting destinations you won't want to miss!
+                </p>
+            </div>
+            
+        </div>
+        
+        <hr>
+
+        <div id="cardCarousel" class="carousel slide" data-bs-interval="false">
+            <div class="carousel-inner">
+                
+                <div class="carousel-item active">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        
+                        <div class="col">
+                            <div class="card h-100 card-hover-effect border-0">
+                                
+                                <div class="position-relative">
+                                    <img src="pictures/banaue/20180608_155606.jpg" class="card-img-top" alt="Banaue Rice Terraces">
+                                    
+                                    <div class="booking-overlay">
+                                        <a href="#booking-page" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-body p-1">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa-sharp fa-solid fa-location-dot me-1 text-danger small-icon"></i>
+                                            <h6 class="card-title mb-0 small-title">Ifugao, PH</h6>
+                                        </div>
+                                        <a class="btn btn-sm ratings-button" data-bs-toggle="modal" data-bs-target="#ratingsModal">
+                                            <i class="fa-solid fa-star me-1"></i> 4.5
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="card h-100 card-hover-effect border-0">
+                                
+                                <div class="position-relative">
+                                    <img src="pictures/cebu/IMG_4187.JPG" class="card-img-top" alt="Cebu Island">
+                                    
+                                    <div class="booking-overlay">
+                                        <a href="#booking-page" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-body p-1">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa-sharp fa-solid fa-location-dot me-1 text-danger small-icon"></i>
+                                            <h6 class="card-title mb-0 small-title">Cebu, PH</h6>
+                                        </div>
+                                        <a class="btn btn-sm ratings-button" data-bs-toggle="modal" data-bs-target="#ratingsModal">
+                                            <i class="fa-solid fa-star me-1"></i> 4.3
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="card h-100 card-hover-effect border-0">
+                                
+                                <div class="position-relative">
+                                    <img src="pictures/bacolod/IMG_2536.JPG" class="card-img-top" alt="Bacolod City">
+                                    
+                                    <div class="booking-overlay">
+                                        <a href="#booking-page" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-body p-1">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa-sharp fa-solid fa-location-dot me-1 text-danger small-icon"></i>
+                                            <h6 class="card-title mb-0 small-title">Bacolod, PH</h6>
+                                        </div>
+                                        <a class="btn btn-sm ratings-button" data-bs-toggle="modal" data-bs-target="#ratingsModal">
+                                            <i class="fa-solid fa-star me-1"></i> 4.1
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="carousel-item">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        
+                        <div class="col">
+                            <div class="card h-100 card-hover-effect border-0">
+                                
+                                <div class="position-relative">
+                                    <img src="pictures/london/7b199af2-1fa5-43eb-949e-d8face96497e.jpg" class="card-img-top" alt="Palawan">
+                                    
+                                    <div class="booking-overlay">
+                                        <a href="#booking-page" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-body p-1">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa-sharp fa-solid fa-location-dot me-1 text-danger small-icon"></i>
+                                            <h6 class="card-title mb-0 small-title">London, UK</h6>
+                                        </div>
+                                        <a class="btn btn-sm ratings-button" data-bs-toggle="modal" data-bs-target="#ratingsModal">
+                                            <i class="fa-solid fa-star me-1"></i> 4.8
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="card h-100 card-hover-effect border-0">
+                                
+                                <div class="position-relative">
+                                    <img src="pictures/dubai/att.U9RjRRtjsSuf51-rQSF-d76MLDeUNHR_G7_OKDvO5b4.jpg" class="card-img-top" alt="Baguio">
+                                    
+                                    <div class="booking-overlay">
+                                        <a href="#booking-page" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-body p-1">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa-sharp fa-solid fa-location-dot me-1 text-danger small-icon"></i>
+                                            <h6 class="card-title mb-0 small-title">Dubai, UAE</h6>
+                                        </div>
+                                        <a class="btn btn-sm ratings-button" data-bs-toggle="modal" data-bs-target="#ratingsModal">
+                                            <i class="fa-solid fa-star me-1"></i> 4.2
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="card h-100 card-hover-effect border-0">
+                                
+                                <div class="position-relative">
+                                    <img src="pictures/singapore/558982038_25285750857677027_7060521419416537381_n_2.jpg" class="card-img-top" alt="Vigan">
+                                    
+                                    <div class="booking-overlay">
+                                        <a href="#booking-page" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-body p-1">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa-sharp fa-solid fa-location-dot me-1 text-danger small-icon"></i>
+                                            <h6 class="card-title mb-0 small-title">Merlion, SG</h6>
+                                        </div>
+                                        <a class="btn btn-sm ratings-button" data-bs-toggle="modal" data-bs-target="#ratingsModal">
+                                            <i class="fa-solid fa-star me-1"></i> 4.4
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#cardCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!--MODAL RATING FOR FIRST CARD-->
+<div class="modal fade" id="ratingsModal" tabindex="-1" aria-labelledby="ratingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content ratings-modal-content">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="ratingsModalLabel">
+                    <i class="fa-solid fa-star me-2"></i> Boracay Ratings & Reviews
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+                
+                <h3 class="text-center mb-4">Overall Score: 4.6/5.0</h3>
+                
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Location & Accessibility
+                        <span class="badge bg-primary rounded-pill">9.2 / 10</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Value for Money
+                        <span class="badge bg-primary rounded-pill">7.5 / 10</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Cleanliness & Environment
+                        <span class="badge bg-primary rounded-pill">9.8 / 10</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Activities & Attractions
+                        <span class="badge bg-primary rounded-pill">8.9 / 10</span>
+                    </li>
+                </ul>
+                
+                <p class="text-center text-muted small">Based on 2,100 verified traveler reviews.</p>
+
+                <hr>
+
+                <h6>Recent Traveler Feedback:</h6>
+                <div class="p-3 border rounded-3 mt-2">
+                    <p class="mb-1 small">**Traveler A (5/5):** "The beaches were pristine, truly paradise!"</p>
+                    <p class="mb-0 small text-muted fst-italic">— Reviewed 1 day ago</p>
+                </div>
+                <div class="p-3 border rounded-3 mt-2">
+                    <p class="mb-1 small">**Traveler B (4/5):** "A little crowded, but the sunset view was worth it."</p>
+                    <p class="mb-0 small text-muted fst-italic">— Reviewed 3 days ago</p>
+                </div>
+                
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#" class="btn btn-primary">Submit Your Review</a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+
+</html>

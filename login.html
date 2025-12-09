@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+
+<body class="login-body"> <div class="container py-5">
+        <div class="row justify-content-center">
+            
+            <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5">
+                
+                <div class="card shadow-lg border-0 login-card">
+                    
+                    <div class="card-header text-center bg-primary text-white py-3">
+                        <i class="fa-solid fa-plane-departure fa-2x mb-2"></i>
+                        <h2 class="h4 mb-0">Log in your Agila Account</h2>
+                    </div>
+
+                    <div class="card-body p-4">
+                        
+                        <div class="d-grid mb-3">
+                            <button class="btn btn-outline-dark" type="button" disabled>
+                                <i class="fa-brands fa-google me-2"></i> Log In with Google
+                            </button>
+                        </div>
+                        <div class="text-center text-muted mb-3 small">
+                            — OR —
+                        </div>
+                        
+                        <form method="POST" action="login.php">
+                            <div class="mb-3">
+                                <label for="username" class="form-label small">Username</label>
+                                <input type="text" class="form-control" name="username" id="username" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label small">Password</label>
+                                <input type="password" class="form-control" name="passwordd" id="password" required/>
+                            </div>
+                            
+                            <p class="text-danger small fw-bold" id="error-msg">
+                                </p>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                Log In
+                            </button>
+                        </form>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+</body>
+</html>

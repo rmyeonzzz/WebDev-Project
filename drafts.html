@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Flights Search</title>
+</head>
+<body>
+    <h1>Flight Search</h1>
+    <form id="flightSearchForm">
+        <label for="departure">Departure Airport:</label>
+        <input type="text" id="departure" value="LAX" required><br><br>
+        <label for="arrival">Arrival Airport:</label>
+        <input type="text" id="arrival" value="JFK" required><br><br>
+        <label for="outboundDate">Outbound Date:</label>
+        <input type="date" id="outboundDate" value="2025-12-25" required><br><br>
+        <button type="submit">Search Flights</button>
+    </form>
+    <div id="flightResults">
+        <h2>Flight Results:</h2>
+        <ul id="flightList"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+<!--SIGN IN MODAL-->
+<div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="signInModalLabel">
+                    <i class="fa-solid fa-user-plus me-2"></i> Create Your Account
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                
+                <div class="d-grid mb-3">
+                    <button class="btn btn-outline-dark" type="button" disabled>
+                        <i class="fa-brands fa-google me-2"></i> Sign Up with Google (API Integration Required)
+                    </button>
+                </div>
+
+                <div class="text-center text-muted mb-3 small">
+                    — OR —
+                </div>
+
+                <form action="registration.php" method="POST" id="signUpForm">
+                    
+                    <div class="mb-3">
+                        <label for="completeName" class="form-label small">Complete Name</label>
+                        <input type="text" class="form-control" name="completename" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label small">Username</label>
+                        <input type="text" class="form-control" name="username" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label small">Email Address</label>
+                        <input type="email" class="form-control" name ="email" required>
+                        <div id="emailHelp" class="form-text small">We'll never share your email with anyone else.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label small">Password</label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                    </div>
+
+                </form>
+            </div>
+            
+            <div class="modal-footer justify-content-center small">
+                Already have an account? <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</a>
+            </div>
+
+        </div>
+    </div>
+</div>

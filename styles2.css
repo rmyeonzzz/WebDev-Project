@@ -1,0 +1,272 @@
+/*overall*/
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'sans-serif';
+}
+
+body {
+    background-color: white !important; /* placeholder */
+    height: 200vh;
+}
+
+
+/*navbar container adjs*/
+.navbar-container {
+    position: absolute;
+    top: 0; 
+    left: 50%;
+    transform: translateX(-50%); 
+    width: 90%; 
+    background-color: transparent;
+    padding: 16px 38px;
+    z-index: 55;
+}
+
+.heading-logo {
+    font-weight: 700;
+    font-size: 38px;
+    margin-bottom: 0px;
+}
+
+.heading-logo span {
+    color: orange;
+}
+
+.nav-item .nav-link {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: orange;
+}
+
+
+/*carousel - slider*/
+.home-section {
+    width: 100%;
+    height: 90vh;
+}
+
+.home-content {
+    width: 100%;
+    height: 90vh;
+    background-position: right;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: -55;
+}
+
+.img-1 {
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('pictures/japan/IMG_0075.jpg');
+    background-position: center center;
+    background-size: cover; 
+    background-repeat: no-repeat;
+}
+.img-2 {
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('pictures/cebu/IMG_4205.JPG');
+    background-position: center center;
+    background-size: cover; 
+    background-repeat: no-repeat;
+}
+
+.img-3 {
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('pictures/Siquijor/IMG_8358 - Copy.jpg');
+    background-position: center center;
+    background-size: cover; 
+    background-repeat: no-repeat;
+}
+
+.content-home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+}
+
+.heading-home {
+    font-size: 50px;
+    font-weight: 500;
+    margin-top: 80px;
+    margin-bottom: 0px;
+    line-height: 2;
+    text-align: center;
+}
+
+.sub-heading-home {
+    color: white;
+    font-size: 70px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    margin: 0px 0px;
+    margin-top: -10px;
+    line-height: 1;
+    text-align: center;
+}
+
+/*book now btn for slider*/
+.btn-home {
+    padding: 12px 28px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background-color: orange;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 125px;
+    transition: 0.2s ease-in;
+}
+
+.btn-home:hover {
+    background-color: darkorange;
+}
+
+
+/* SEARCH FLIGHT SECTION (Revised) */
+.booking-section {
+    width: 80%;
+    height: auto; 
+    background-color: white;
+    
+    position: relative; 
+    margin: 0 auto; 
+    
+    margin-top: -12vh; 
+    
+    margin-bottom: 16vh;
+    padding: 25px 40px; 
+    
+    z-index: 50; 
+    border-radius: 0.5rem; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+}
+
+
+.selection-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center; 
+    justify-content: center;
+}
+
+/*TOP-PICKS SECTION*/
+.top-picks-section .card-img-top {
+    height: 200px; 
+    object-fit: cover; 
+    width: 100%;
+}
+
+.top-picks-section .card-one {
+    height: 300px; 
+    object-fit: cover; 
+    width: 100%;
+}
+
+.top-picks-section .card-hover-effect{
+    border: none !important;
+}
+
+.small-title {
+    font-size: 1.15rem !important; 
+    font-weight: 700;
+}
+.small-icon {
+    font-size: 1.15rem;
+}
+
+
+/*ratings btn*/
+.ratings-button {
+
+    margin-top: 0;
+    margin-bottom: 0; 
+    background-color: #ffc107 !important; 
+    color: #000000; 
+    font-weight: bold;
+    border-radius: 0.5rem;
+    padding: 0.1rem 0.35rem; 
+    font-size: 0.75rem; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: none;
+    line-height: 1.2;
+    z-index: 1;
+}
+
+.ratings-button:hover {
+    background-color: #e0a800 !important; 
+    color: #000000;
+}
+
+
+/*book-now*/ 
+.booking-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; 
+    transition: opacity 0.3s ease-in-out; 
+    z-index: 5; 
+    border-radius: 0.375rem; 
+}
+
+
+.book-now-btn {
+    font-weight: bold;
+    color: white;
+    padding: 1rem 2rem;
+    z-index: 6; 
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.card-hover-effect:hover .booking-overlay {
+    opacity: 1; 
+}
+
+
+.card-hover-effect:hover .book-now-btn {
+    transform: scale(1.05);
+}
+
+
+.card-hover-effect:hover .card-img-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 60%);
+}
+
+
+#cardCarousel .carousel-control-prev,
+#cardCarousel .carousel-control-next {
+    width: 50px; 
+    opacity: 0.8;
+    z-index: 100;
+}
+
+#cardCarousel .carousel-control-prev-icon,
+#cardCarousel .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    padding: 1rem;
+}
+
+
+/*login error style*/
+.login-error-box {
+    background-color: rgba(255, 192, 192, 0.5); 
+    border-color: rgba(255, 0, 0, 0.5) !important;
+}
