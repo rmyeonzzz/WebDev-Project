@@ -105,24 +105,32 @@
 </div>
 
 <div class="booking-section">
-    <div class="selection-container"> 
+    <div class="booking-tabs mb-4" style="display: flex; gap: 10px; justify-content: center;">
+        <button class="tab-btn active btn btn-light fw-bold" onclick="switchTab('flight')" id="btn-flight">
+            ✈️ Flights
+        </button>
+        <button class="tab-btn btn btn-light fw-bold" onclick="switchTab('hotel')" id="btn-hotel">
+            🏨 Hotels
+        </button>
+    </div>
+
+    <div id="flight-container" class="selection-container">
         <form id="flightSearchForm" method="POST" action="searchflight.php">
             <div class="row g-3 align-items-end"> 
                 
                 <div class="d-flex align-items-center mb-3">
-                            <span class="text-warning me-2" style="font-size: 1.2rem;">&#9992;</span>
-                            <span class="fw-bold me-4">Flight</span>
-                            
-                            <div class="dropdown">
-                                <button class="btn btn-sm dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #007bff; border-color: #007bff;">
-                                    Round-trip
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">One Way</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
+                    <span class="text-warning me-2" style="font-size: 1.2rem;">&#9992;</span>
+                    <span class="fw-bold me-4">Flight</span>
+                    
+                    <div class="dropdown">
+                        <button class="btn btn-sm dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #007bff; border-color: #007bff;">
+                            Round-trip
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">One Way</a></li>
+                        </ul>
+                    </div>
+                </div>
 
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <label for="origin" class="form-label">Departure</label>
@@ -193,10 +201,32 @@
                             Search Flights
                         </button>
                     </div>
-                    
                 </div>
             </div>
         </form>
+    </div>
+
+    <div id="hotel-container" class="selection-container" style="display: none;">
+        <div class="d-flex align-items-center mb-3">
+            <span class="text-warning me-2" style="font-size: 1.2rem;">🏨</span>
+            <span class="fw-bold">Find a Hotel</span>
+        </div>
+
+        <div class="row g-3 align-items-end">
+            <div class="col-lg-9 col-md-8">
+                <label for="hotel-location-input" class="form-label">Destination / Hotel Name</label>
+                <input type="text" class="form-control" id="hotel-location-input" placeholder="e.g. Philippines, Boracay, Manila...">
+            </div>
+
+            <div class="col-lg-3 col-md-4">
+                <button type="button" onclick="searchHotels()" class="btn btn-primary h-100 w-100 fs-5 rounded-start-3 rounded-end-3" 
+                style="background-color: #2a6dac; border-color: #2a6dac;">
+                    Search Hotels
+                </button>
+            </div>
+        </div>
+
+        <div id="hotel-results" class="results-grid mt-4"></div>
     </div>
 </div>
 
@@ -433,8 +463,19 @@
     </div>
 </div>
 
+<section id="tourist-attractions" class="attraction-section">
+    <h2>Find Tourist Attractions</h2>
+    <div class="search-box">
+        <input type="text" id="cityInput" placeholder="Enter city (e.g., Manila, Cebu)...">
+        <button onclick="searchAttractions()">Search</button>
+    </div>
+
+    <div id="attractionResults" class="results-grid"></div>
+</section>
+
+
 <!--HOTEL SECTION -->
-<div class="card p-4 shadow-sm">
+<!-- <div class="card p-4 shadow-sm">
     <form id="hotel-search-form">
         <div class="row g-3 align-items-end">
             
@@ -480,7 +521,7 @@
     </div>
 </form>
 </div>
-</div>
+</div> -->
 
 
 <!--RATING MODAL-->
@@ -562,6 +603,272 @@
         <button class="btn btn-primary" onclick="sendMessage()">Send</button>
     </div>
 </div>
+<script>
+    async function searchAttractions() {
+        const city = document.getElementById('cityInput').value.toLowerCase();
+        const resultsDiv = document.getElementById('attractionResults');
+        
+        if (!city) {
+            alert("Please enter a city name");
+            return;
+        }
+
+        resultsDiv.innerHTML = '<p>Searching for amazing tours...</p>';
+
+        try {
+            // CALL YOUR PHP FILE
+            const response = await fetch('/viggo/utils/get_attractions.php?city=' + city);
+            
+            // CHECK IF FILE EXISTS (404 Error)
+            if (!response.ok) {
+                throw new Error(`PHP file not found (404). Check folder path!`);
+            }
+
+            const jsonData = await response.json();
+
+            // CHECK IF API RETURNED ERROR
+            if (jsonData.error) {
+                resultsDiv.innerHTML = `<p style="color:red; font-weight:bold;">${jsonData.error}</p>`;
+                return;
+            }
+
+            // DISPLAY RESULTS
+            if (jsonData.data && jsonData.data.length > 0) {
+                displayAttractions(jsonData.data);
+            } else {
+                resultsDiv.innerHTML = '<p>No tours found for this location.</p>';
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            resultsDiv.innerHTML = `<p style="color:red">Error: ${error.message}</p>`;
+        }
+    }
+
+    function displayAttractions(items) {
+        const resultsDiv = document.getElementById('attractionResults');
+        resultsDiv.innerHTML = ''; 
+
+        items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'attraction-card';
+            
+            // 1. Get Image (Use the real one from Amadeus if available)
+            let imageUrl = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&q=60'; // Fallback
+            if (item.pictures && item.pictures.length > 0) {
+                imageUrl = item.pictures[0];
+            }
+
+            // 2. Get Price
+            let priceInfo = '';
+            if (item.price) {
+                priceInfo = `<p class="price"><strong>Price:</strong> ${item.price.amount} ${item.price.currencyCode}</p>`;
+            }
+
+            // 3. Build Card HTML
+            card.innerHTML = `
+                <div class="image-container">
+                    <img src="${imageUrl}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                </div>
+                <div class="card-content">
+                    <h3>${item.name}</h3>
+                    <p class="desc">${item.shortDescription || "No description available."}</p>
+                    ${priceInfo}
+                    <a href="${item.bookingLink}" target="_blank" class="view-btn">Book Now</a>
+                </div>
+            `;
+            
+            resultsDiv.appendChild(card);
+        });
+    }
+</script>
+
+<script>
+    // --- 1. Toggle between Flight and Hotel Sections ---
+function switchTab(tab) {
+    const flightContainer = document.getElementById('flight-container');
+    const hotelContainer = document.getElementById('hotel-container');
+    const btnFlight = document.getElementById('btn-flight');
+    const btnHotel = document.getElementById('btn-hotel');
+
+    if (tab === 'flight') {
+        flightContainer.style.display = 'block';
+        hotelContainer.style.display = 'none';
+        btnFlight.classList.add('active');
+        btnHotel.classList.remove('active');
+    } else {
+        flightContainer.style.display = 'none';
+        hotelContainer.style.display = 'block';
+        btnFlight.classList.remove('active');
+        btnHotel.classList.add('active');
+    }
+}
+
+// --- 2. Fetch Hotels from Booking.com API ---
+async function searchHotels() {
+    const query = document.getElementById('hotel-location-input').value;
+    const resultsContainer = document.getElementById('hotel-results');
+
+    if (!query) {
+        alert("Please enter a destination (e.g., Manila, Cebu).");
+        return;
+    }
+
+    // --- 1. STATUS: STARTING ---
+    resultsContainer.innerHTML = `
+        <div class="col-12 text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Searching for locations matching "<strong>${query}</strong>"...</p>
+        </div>`;
+
+    const apiKey = '329580a304msh4d65ca35ca58b79p10bebfjsnd06f2e179e59'; 
+    const apiHost = 'booking-com15.p.rapidapi.com';
+
+    try {
+        // ==========================================
+        // STEP 1: Find the Destination ID
+        // ==========================================
+        const locationUrl = `https://${apiHost}/api/v1/hotels/searchDestination?query=${encodeURIComponent(query)}`;
+        
+        const locResponse = await fetch(locationUrl, {
+            method: 'GET',
+            headers: { 'x-rapidapi-host': apiHost, 'x-rapidapi-key': apiKey }
+        });
+        
+        const locJson = await locResponse.json();
+
+        // Check if location found
+        if (!locJson.status || !locJson.data || locJson.data.length === 0) {
+            resultsContainer.innerHTML = '<p class="text-center text-danger">No locations found. Please try a different name.</p>';
+            return;
+        }
+
+        // Filter: Prioritize CITY
+        let destData = locJson.data.find(item => item.search_type === 'city');
+
+        // Fallback: If no city, just take the first valid result (could be district/landmark)
+        if (!destData) {
+            destData = locJson.data[0];
+        }
+
+        // If we found a whole country (Philippines), warn user
+        if (destData.search_type === 'country') {
+             resultsContainer.innerHTML = `
+                <div class="col-12 text-center text-warning p-4">
+                    <h5>Too Broad</h5>
+                    <p>Please search for a specific <strong>City</strong> (e.g. Manila, Cebu City, Makati) instead of "Philippines".</p>
+                </div>`;
+            return;
+        }
+
+        resultsContainer.innerHTML = `
+            <div class="col-12 text-center py-4">
+                <div class="spinner-border text-success" role="status"></div>
+                <p class="mt-2">Found <strong>${destData.label}</strong>. Fetching hotels...</p>
+            </div>`;
+
+        // ==========================================
+        // STEP 2: Fetch Hotels
+        // ==========================================
+        
+        // Dates: Book 60 days in advance
+        const today = new Date();
+        today.setDate(today.getDate() + 60); 
+        const nextDay = new Date(today);
+        nextDay.setDate(today.getDate() + 1);
+
+        const checkin = today.toISOString().split('T')[0];
+        const checkout = nextDay.toISOString().split('T')[0];
+
+        const destId = destData.dest_id;
+        const searchType = destData.search_type;
+
+        // FIX: CHANGED currency_code=PHP to currency_code=USD
+        const hotelUrl = `https://${apiHost}/api/v1/hotels/searchHotels?dest_id=${destId}&search_type=${searchType}&arrival_date=${checkin}&departure_date=${checkout}&adults=1&children_age=0&room_qty=1&page_number=1&units=metric&temperature_unit=c&languagecode=en-us&currency_code=USD`;
+
+        const hotelResponse = await fetch(hotelUrl, {
+            method: 'GET',
+            headers: { 'x-rapidapi-host': apiHost, 'x-rapidapi-key': apiKey }
+        });
+        
+        const hotelJson = await hotelResponse.json();
+
+        // ==========================================
+        // STEP 3: Display Results
+        // ==========================================
+        
+        // Handle Error from API
+        if (hotelJson.status === false) {
+             resultsContainer.innerHTML = `<p class="text-danger text-center">API Error: ${JSON.stringify(hotelJson.message)}</p>`;
+             return;
+        }
+
+        resultsContainer.innerHTML = ''; 
+        const hotels = hotelJson.data?.hotels || hotelJson.data?.result || hotelJson.result || [];
+
+        if (hotels.length > 0) {
+             hotels.forEach(hotel => {
+                // Image Handling
+                let imageUrl = 'https://via.placeholder.com/300x200?text=No+Image';
+                if (hotel.property?.photoUrls?.[0]) imageUrl = hotel.property.photoUrls[0];
+                else if (hotel.main_photo_url) imageUrl = hotel.main_photo_url;
+
+                const hotelName = hotel.property?.name || hotel.hotel_name || "Unnamed Hotel";
+                
+                // Price Handling (It will now show USD $)
+                let priceText = "Check Price";
+                if (hotel.property?.priceBreakdown) {
+                    const priceVal = Math.round(hotel.property.priceBreakdown.grossPrice.value);
+                    priceText = `$ ${priceVal}`; // Display as USD
+                }
+
+                // Rating
+                const score = hotel.property?.reviewScore || hotel.review_score || '-';
+
+                const card = `
+                    <div class="hotel-card">
+                        <img 
+                            src="${imageUrl}" 
+                            alt="${hotelName}" 
+                            referrerpolicy="no-referrer"
+                            onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Image+Unavailable';"
+                        >
+                        <div class="hotel-info">
+                            <h5 class="fw-bold text-truncate">${hotelName}</h5>
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge bg-primary me-2">${score}</span>
+                                <small class="text-muted">Review Score</small>
+                            </div>
+                            <p class="text-muted small mb-1">📍 ${destData.name}</p>
+                            
+                            <div class="d-flex justify-content-between align-items-end mt-3">
+                                <div>
+                                    <small class="text-muted d-block">Per night (approx)</small>
+                                    <span class="fw-bold text-dark fs-5">${priceText}</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary">View</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.innerHTML += card;
+            });
+        } else {
+            resultsContainer.innerHTML = `
+                <div class="col-12 text-center mt-4">
+                    <h5>No hotels found.</h5>
+                    <p class="text-muted">Try a different city or date.</p>
+                </div>`;
+        }
+
+    } catch (error) {
+        console.error('Script Error:', error);
+        resultsContainer.innerHTML = `<p class="text-danger text-center">System Error: ${error.message}</p>`;
+    }
+}
+``
+
+</script>
 
 </body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

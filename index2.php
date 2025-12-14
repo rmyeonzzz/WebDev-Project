@@ -476,7 +476,17 @@ if (!$is_logged_in) {
     </div>
 </div>
 
-<!--HOTEL SECTION -->
+<section id="tourist-attractions" class="attraction-section">
+    <h2>Find Tourist Attractions</h2>
+    <div class="search-box">
+        <input type="text" id="cityInput" placeholder="Enter city (e.g., Manila, Cebu)...">
+        <button onclick="searchAttractions()">Search</button>
+    </div>
+
+    <div id="attractionResults" class="results-grid"></div>
+</section>
+
+<!-- HOTEL SECTION
 <div class="card p-4 shadow-sm">
     <form id="hotel-search-form">
         <div class="row g-3 align-items-end">
@@ -523,7 +533,7 @@ if (!$is_logged_in) {
     </div>
 </form>
 </div>
-</div>
+</div> -->
 
 
 <!--RATING MODAL-->
@@ -605,6 +615,86 @@ if (!$is_logged_in) {
         <button class="btn btn-primary" onclick="sendMessage()">Send</button>
     </div>
 </div>
+
+<script>
+    async function searchAttractions() {
+        const city = document.getElementById('cityInput').value.toLowerCase();
+        const resultsDiv = document.getElementById('attractionResults');
+        
+        if (!city) {
+            alert("Please enter a city name");
+            return;
+        }
+
+        resultsDiv.innerHTML = '<p>Searching for amazing tours...</p>';
+
+        try {
+            // CALL YOUR PHP FILE
+            const response = await fetch('/viggo/utils/get_attractions.php?city=' + city);
+            
+            // CHECK IF FILE EXISTS (404 Error)
+            if (!response.ok) {
+                throw new Error(`PHP file not found (404). Check folder path!`);
+            }
+
+            const jsonData = await response.json();
+
+            // CHECK IF API RETURNED ERROR
+            if (jsonData.error) {
+                resultsDiv.innerHTML = `<p style="color:red; font-weight:bold;">${jsonData.error}</p>`;
+                return;
+            }
+
+            // DISPLAY RESULTS
+            if (jsonData.data && jsonData.data.length > 0) {
+                displayAttractions(jsonData.data);
+            } else {
+                resultsDiv.innerHTML = '<p>No tours found for this location.</p>';
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            resultsDiv.innerHTML = `<p style="color:red">Error: ${error.message}</p>`;
+        }
+    }
+
+    function displayAttractions(items) {
+        const resultsDiv = document.getElementById('attractionResults');
+        resultsDiv.innerHTML = ''; 
+
+        items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'attraction-card';
+            
+            // 1. Get Image (Use the real one from Amadeus if available)
+            let imageUrl = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&q=60'; // Fallback
+            if (item.pictures && item.pictures.length > 0) {
+                imageUrl = item.pictures[0];
+            }
+
+            // 2. Get Price
+            let priceInfo = '';
+            if (item.price) {
+                priceInfo = `<p class="price"><strong>Price:</strong> ${item.price.amount} ${item.price.currencyCode}</p>`;
+            }
+
+            // 3. Build Card HTML
+            card.innerHTML = `
+                <div class="image-container">
+                    <img src="${imageUrl}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                </div>
+                <div class="card-content">
+                    <h3>${item.name}</h3>
+                    <p class="desc">${item.shortDescription || "No description available."}</p>
+                    ${priceInfo}
+                    <a href="${item.bookingLink}" target="_blank" class="view-btn">Book Now</a>
+                </div>
+            `;
+            
+            resultsDiv.appendChild(card);
+        });
+    }
+</script>
 
 </body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -782,44 +872,44 @@ if (!$is_logged_in) {
 
         // --- Hotel Search Logic for Xotelo API ---
 
-        if (hotelSearchForm) {
-            hotelSearchForm.addEventListener('submit', handleHotelSearch);
-        }
-                    async function handleHotelSearch(event) {
-            event.preventDefault();
+        // if (hotelSearchForm) {
+        //     hotelSearchForm.addEventListener('submit', handleHotelSearch);
+        // }
+        //             async function handleHotelSearch(event) {
+        //     event.preventDefault();
 
-            const destinationText = document.getElementById('location-text').value.trim();
-            const checkin = document.getElementById('checkin').value;
-            const checkout = document.getElementById('checkout').value;
-            const rooms = parseInt(document.getElementById('guests').value);
-            const adults = rooms; // or ask user for number of adults
+        //     const destinationText = document.getElementById('location-text').value.trim();
+        //     const checkin = document.getElementById('checkin').value;
+        //     const checkout = document.getElementById('checkout').value;
+        //     const rooms = parseInt(document.getElementById('guests').value);
+        //     const adults = rooms; // or ask user for number of adults
 
-            // 1) Get City ID first
-            const mapRes = await fetch('/api/makcorps-map', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: destinationText })
-            });
-            const mapData = await mapRes.json();
-            if (!Array.isArray(mapData) || mapData.length == 0) {
-                alert('City not found.');
-                return;
-            }
-            const cityId = mapData[0].document_id;
+        //     // 1) Get City ID first
+        //     const mapRes = await fetch('/api/makcorps-map', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({ name: destinationText })
+        //     });
+        //     const mapData = await mapRes.json();
+        //     if (!Array.isArray(mapData) || mapData.length == 0) {
+        //         alert('City not found.');
+        //         return;
+        //     }
+        //     const cityId = mapData[0].document_id;
 
-            // 2) Request hotels
-            const hotelRes = await fetch('/api/makcorps-search', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    destination: cityId,
-                    checkin, checkout, rooms, adults
-                })
-            });
+        //     // 2) Request hotels
+        //     const hotelRes = await fetch('/api/makcorps-search', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({
+        //             destination: cityId,
+        //             checkin, checkout, rooms, adults
+        //         })
+        //     });
 
-            const hotelData = await hotelRes.json();
-            document.getElementById('hotel-results-data').textContent = JSON.stringify(hotelData, null, 2);
-        }
+        //     const hotelData = await hotelRes.json();
+        //     document.getElementById('hotel-results-data').textContent = JSON.stringify(hotelData, null, 2);
+        // }
 
     //    async function handleHotelSearch(event) {
     //         event.preventDefault();
