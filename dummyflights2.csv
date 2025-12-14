@@ -1,0 +1,71 @@
+flight_id,flight_number,from,to,depart_date,return_date,depart_time,return_time,price,seats,flight_type
+1,PR 101,Manila (MNL),Cebu (CEB),04-01-26,11-01-26,06:00,07:30,3500.00,120,Economy
+2,5J 102,Cebu (CEB),Manila (MNL),04-01-26,11-01-26,14:00,15:30,3600.00,45,Economy
+3,PR 103,Manila (MNL),Cebu (CEB),04-01-26,11-01-26,18:00,19:30,5500.00,28,Business
+4,5J 104,Cebu (CEB),Manila (MNL),04-01-26,11-01-26,21:00,22:30,5700.00,15,Premium Economy
+5,PR 201,Manila (MNL),Boracay (MPH),04-01-26,11-01-26,08:30,09:45,4500.00,80,Economy
+6,5J 202,Boracay (MPH),Manila (MNL),04-01-26,11-01-26,11:30,12:45,4600.00,30,Premium Economy
+7,PR 301,Manila (MNL),Singapore (SIN),04-01-26,11-01-26,15:00,18:30,12500.00,100,Economy
+8,SQ 302,Singapore (SIN),Manila (MNL),04-01-26,11-01-26,20:00,23:30,13000.00,55,Business
+9,PR 401,Manila (MNL),Palawan (PPS),04-01-26,11-01-26,07:00,08:15,6000.00,150,Economy
+10,5J 402,Palawan (PPS),Manila (MNL),04-01-26,11-01-26,13:00,14:15,6200.00,75,Premium Economy
+11,EK 501,Manila (MNL),Dubai (DXB),04-01-26,11-01-26,01:30,06:30,35000.00,90,Economy
+12,EK 502,Dubai (DXB),Manila (MNL),04-01-26,11-01-26,09:00,22:00,45000.00,40,First Class
+13,PR 101,Manila (MNL),Cebu (CEB),05-01-26,12-01-26,06:00,07:30,3700.00,110,Economy
+14,5J 102,Cebu (CEB),Manila (MNL),05-01-26,12-01-26,14:00,15:30,3800.00,50,Economy
+15,PR 103,Manila (MNL),Cebu (CEB),05-01-26,12-01-26,18:00,19:30,5800.00,25,Business
+16,5J 104,Cebu (CEB),Manila (MNL),05-01-26,12-01-26,21:00,22:30,5900.00,18,Premium Economy
+17,PR 201,Manila (MNL),Boracay (MPH),05-01-26,12-01-26,08:30,09:45,4700.00,95,Economy
+18,5J 202,Boracay (MPH),Manila (MNL),05-01-26,12-01-26,11:30,12:45,4800.00,35,Premium Economy
+19,PR 301,Manila (MNL),Singapore (SIN),05-01-26,12-01-26,15:00,18:30,12800.00,115,Economy
+20,SQ 302,Singapore (SIN),Manila (MNL),05-01-26,12-01-26,20:00,23:30,13500.00,60,Business
+21,PR 401,Manila (MNL),Palawan (PPS),05-01-26,12-01-26,07:00,08:15,6100.00,130,Economy
+22,5J 402,Palawan (PPS),Manila (MNL),05-01-26,12-01-26,13:00,14:15,6300.00,85,Premium Economy
+23,EK 501,Manila (MNL),Dubai (DXB),05-01-26,12-01-26,01:30,06:30,36000.00,105,Economy
+24,EK 502,Dubai (DXB),Manila (MNL),05-01-26,12-01-26,09:00,22:00,46000.00,50,First Class
+25,PR 101,Manila (MNL),Cebu (CEB),06-01-26,13-01-26,06:00,07:30,3900.00,105,Economy
+26,5J 102,Cebu (CEB),Manila (MNL),06-01-26,13-01-26,14:00,15:30,4000.00,55,Economy
+27,PR 103,Manila (MNL),Cebu (CEB),06-01-26,13-01-26,18:00,19:30,6000.00,30,Business
+28,5J 104,Cebu (CEB),Manila (MNL),06-01-26,13-01-26,21:00,22:30,6100.00,20,Premium Economy
+29,PR 201,Manila (MNL),Boracay (MPH),06-01-26,13-01-26,08:30,09:45,4900.00,100,Economy
+30,5J 202,Boracay (MPH),Manila (MNL),06-01-26,13-01-26,11:30,12:45,5000.00,40,Premium Economy
+31,PR 301,Manila (MNL),Singapore (SIN),06-01-26,13-01-26,15:00,18:30,13000.00,120,Economy
+32,SQ 302,Singapore (SIN),Manila (MNL),06-01-26,13-01-26,20:00,23:30,13800.00,65,Business
+33,PR 401,Manila (MNL),Palawan (PPS),06-01-26,13-01-26,07:00,08:15,6300.00,140,Economy
+34,5J 402,Palawan (PPS),Manila (MNL),06-01-26,13-01-26,13:00,14:15,6500.00,90,Premium Economy
+35,EK 501,Manila (MNL),Dubai (DXB),06-01-26,13-01-26,01:30,06:30,37000.00,110,Economy
+36,EK 502,Dubai (DXB),Manila (MNL),06-01-26,13-01-26,09:00,22:00,47000.00,55,First Class
+37,PR 101,Manila (MNL),Cebu (CEB),07-01-26,14-01-26,06:00,07:30,4100.00,90,Economy
+38,5J 102,Cebu (CEB),Manila (MNL),07-01-26,14-01-26,14:00,15:30,4200.00,60,Economy
+39,PR 103,Manila (MNL),Cebu (CEB),07-01-26,14-01-26,18:00,19:30,6200.00,35,Business
+40,5J 104,Cebu (CEB),Manila (MNL),07-01-26,14-01-26,21:00,22:30,6300.00,22,Premium Economy
+41,PR 201,Manila (MNL),Boracay (MPH),07-01-26,14-01-26,08:30,09:45,5100.00,115,Economy
+42,5J 202,Boracay (MPH),Manila (MNL),07-01-26,14-01-26,11:30,12:45,5200.00,45,Premium Economy
+43,PR 301,Manila (MNL),Singapore (SIN),07-01-26,14-01-26,15:00,18:30,13200.00,125,Economy
+44,SQ 302,Singapore (SIN),Manila (MNL),07-01-26,14-01-26,20:00,23:30,14000.00,70,Business
+45,PR 401,Manila (MNL),Palawan (PPS),07-01-26,14-01-26,07:00,08:15,6500.00,105,Economy
+46,5J 402,Palawan (PPS),Manila (MNL),07-01-26,14-01-26,13:00,14:15,6700.00,95,Premium Economy
+47,EK 501,Manila (MNL),Dubai (DXB),07-01-26,14-01-26,01:30,06:30,38000.00,120,Economy
+48,EK 502,Dubai (DXB),Manila (MNL),07-01-26,14-01-26,09:00,22:00,48000.00,60,First Class
+49,PR 101,Manila (MNL),Cebu (CEB),08-01-26,15-01-26,06:00,07:30,4300.00,95,Economy
+50,5J 102,Cebu (CEB),Manila (MNL),08-01-26,15-01-26,14:00,15:30,4400.00,65,Economy
+51,PR 103,Manila (MNL),Cebu (CEB),08-01-26,15-01-26,18:00,19:30,6400.00,40,Business
+52,5J 104,Cebu (CEB),Manila (MNL),08-01-26,15-01-26,21:00,22:30,6500.00,25,Premium Economy
+53,PR 201,Manila (MNL),Boracay (MPH),08-01-26,15-01-26,08:30,09:45,5300.00,125,Economy
+54,5J 202,Boracay (MPH),Manila (MNL),08-01-26,15-01-26,11:30,12:45,5400.00,50,Premium Economy
+55,PR 301,Manila (MNL),Singapore (SIN),08-01-26,15-01-26,15:00,18:30,13400.00,130,Economy
+56,SQ 302,Singapore (SIN),Manila (MNL),08-01-26,15-01-26,20:00,23:30,14200.00,75,Business
+57,PR 401,Manila (MNL),Palawan (PPS),08-01-26,15-01-26,07:00,08:15,6700.00,115,Economy
+58,5J 402,Palawan (PPS),Manila (MNL),08-01-26,15-01-26,13:00,14:15,6900.00,100,Premium Economy
+59,EK 501,Manila (MNL),Dubai (DXB),08-01-26,15-01-26,01:30,06:30,39000.00,130,Economy
+60,EK 502,Dubai (DXB),Manila (MNL),08-01-26,15-01-26,09:00,22:00,49000.00,65,First Class
+61,PR 101,Manila (MNL),Cebu (CEB),09-01-26,16-01-26,06:00,07:30,4500.00,100,Economy
+62,5J 102,Cebu (CEB),Manila (MNL),09-01-26,16-01-26,14:00,15:30,4600.00,70,Economy
+63,PR 201,Manila (MNL),Boracay (MPH),09-01-26,16-01-26,08:30,09:45,5500.00,135,Economy
+64,5J 202,Boracay (MPH),Manila (MNL),09-01-26,16-01-26,11:30,12:45,5600.00,55,Premium Economy
+65,PR 301,Manila (MNL),Singapore (SIN),09-01-26,16-01-26,15:00,18:30,13600.00,140,Economy
+66,SQ 302,Singapore (SIN),Manila (MNL),09-01-26,16-01-26,20:00,23:30,14400.00,80,Business
+67,PR 401,Manila (MNL),Palawan (PPS),10-01-26,17-01-26,07:00,08:15,6900.00,125,Economy
+68,5J 402,Palawan (PPS),Manila (MNL),10-01-26,17-01-26,13:00,14:15,7100.00,110,Premium Economy
+69,EK 501,Manila (MNL),Dubai (DXB),10-01-26,17-01-26,01:30,06:30,40000.00,145,Economy
+70,EK 502,Dubai (DXB),Manila (MNL),10-01-26,17-01-26,09:00,22:00,50000.00,75,First Class

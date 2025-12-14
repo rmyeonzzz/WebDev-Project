@@ -89,3 +89,46 @@
         </div>
     </div>
 </div>
+
+
+
+
+/*SEARCH FLIGHT BUTTON*/
+.custom-search-btn {
+    /* 1. COLOR & BACKGROUND */
+    background-color: #ff9900; /* Default: Orange */
+    border-color: #ff9900;
+    color:rgb(42, 109, 172); /* Text color */
+    
+    /* Hover state for a nice visual feedback */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-search-btn:hover {
+    background-color: #e68a00; /* Slightly darker orange on hover */
+    border-color: #e68a00;
+}
+
+/* 2. SIZE (Text, Padding, and Height) */
+
+/* To control the text size and icon size */
+.custom-search-btn {
+    font-size: 1.1rem; /* Increase/decrease font size */
+    padding: 0.5rem 1rem; /* Adjust horizontal and vertical padding (Bootstrap already handles much of this) */
+}
+
+/* If you need to force a specific HEIGHT (useful for alignment in a grid) */
+.search-button-container {
+    height: 100%; 
+}
+
+/* This is often needed to ensure the button aligns with other form-controls */
+.search-button-container .custom-search-btn {
+    height: 100%;
+    /* You can override Bootstrap's min-height if needed, but 100% works best in aligned rows */
+}
+
+/* If you are using a font icon, you can size it here */
+.custom-search-btn i.fas {
+    font-size: 1.2rem; /* Size of the search icon */
+}

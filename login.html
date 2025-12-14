@@ -10,8 +10,8 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
-
-<body class="login-body"> <div class="container py-5">
+    <body class="login-body"> 
+    <div class="container py-5">
         <div class="row justify-content-center">
             
             <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5">
@@ -24,16 +24,7 @@
                     </div>
 
                     <div class="card-body p-4">
-                        
-                        <div class="d-grid mb-3">
-                            <button class="btn btn-outline-dark" type="button" disabled>
-                                <i class="fa-brands fa-google me-2"></i> Log In with Google
-                            </button>
-                        </div>
-                        <div class="text-center text-muted mb-3 small">
-                            — OR —
-                        </div>
-                        
+                    
                         <form method="POST" action="login.php">
                             <div class="mb-3">
                                 <label for="username" class="form-label small">Username</label>
@@ -47,6 +38,8 @@
                             <p class="text-danger small fw-bold" id="error-msg">
                                 </p>
                             
+                            <input type="hidden" name="redirect_url" id="redirect_url" value="">
+
                             <button type="submit" class="btn btn-primary btn-lg w-100">
                                 Log In
                             </button>
@@ -55,11 +48,30 @@
                     </div>
                     
                 </div>
+                <div class="card-footer text-center bg-light py-3 border-0">
+                    Don't have an account yet? 
+                    <a href="signupp.php" 
+                       class="btn btn-sm btn-outline-secondary ms-1 fw-bold">
+                        Sign Up
+                    </a>
+                </div>
             </div>
-            
         </div>
     </div>
     
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Read the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirect = urlParams.get('redirect');
+        
+        // If a redirect parameter exists, set the value of the hidden input field
+        if (redirect) {
+            document.getElementById('redirect_url').value = redirect;
+        }
+    });
+    </script>
+                                      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 </body>
 </html>

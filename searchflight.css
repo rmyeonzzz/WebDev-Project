@@ -1,0 +1,147 @@
+/*overall*/
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'sans-serif';
+}
+
+body {
+    background-color: white !important; /* placeholder */
+    height: 200vh;
+}
+
+
+/*navbar container adjs*/
+.navbar-container {
+    position: fixed;
+    top: 0; 
+    left: 50%;
+    transform: translateX(-50%); 
+    width: 100%; 
+    background-color: transparent;
+    padding: 3px 50px;
+    z-index: 55;
+    border-bottom: 0.5px solid white;
+    
+}
+.navbar-container.scrolled {
+    background-color: white; /* Change to a solid color, e.g., white */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+    border-bottom: 0.5px solid #ccc; /* Optional: Change border color */
+}
+
+/* Optional: Adjust link/text color for better contrast when scrolled */
+.navbar-container.scrolled .nav-link,
+.navbar-container.scrolled .heading-logo,
+.navbar-container.scrolled .fa-map {
+    color: #333 !important; /* Change text color to dark gray */
+}
+
+/* Reset search button color when scrolled */
+.navbar-container.scrolled .btn-outline-light {
+    color: #333 !important;
+    border-color: #333 !important;
+}
+
+.heading-logo {
+    font-weight: 700;
+    font-size: 38px;
+    margin-bottom: 0px;
+}
+
+.heading-logo span {
+    color: orange;
+}
+
+.nav-item .nav-link {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: orange;
+}
+
+/* --- New CSS for Navbar Scroll Effect --- */
+.navbar-custom-transparent {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: transparent !important; /* Initial transparent state */
+}
+
+/* Class applied by JavaScript when scrolled */
+.navbar-container.scrolled .navbar-custom-transparent {
+    background-color: #2a6dac !important; /* Solid color when scrolled, matching your search button */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-container.scrolled .nav-item .nav-link {
+    color: white !important; /* Ensure links are still visible */
+}
+
+/* Also update the logo color if needed, or leave it as is */
+.navbar-container.scrolled .heading-logo {
+    color: white !important;
+}
+
+/*carousel - slider*/
+.home-section {
+    width: 100%;
+    height: 90vh;
+}
+
+.searchflight-section {
+    width: 100%;
+    height: 90vh;
+}
+
+.home-content {
+    width: 100%;
+    height: 50vh;
+    background-position: right;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: -55;
+}
+
+.img-1 {
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('pictures/baler/20180726_095235.jpg');
+    background-position: center center;
+    background-size: cover; 
+    background-repeat: no-repeat;
+}
+
+.content-home {
+    display: flex;
+    justify-content:flex-start ;
+    align-items: baseline;
+    flex-direction: column;
+    color: white;
+    width: 100%;
+    padding-left: 50px;
+    padding-top:0px;
+}
+
+.heading-home {
+    font-size: 50px;
+    font-weight: 500;
+    margin-bottom: 0px;
+    line-height: 2;
+    text-align: center;
+}
+
+.sub-heading-home {
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    margin: 0px 0px;
+    margin-top: -10px;
+    line-height: 1;
+    text-align: center;
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="searchflight.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&family=Mynerve&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src='https://kit.fontawesome.com/4c729db828.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <title>VigGo Travel Booking</title>
+</head>
+
+<body>
+
+<header class="navbar-container">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-transparent">
+        <div class="container-fluid">
+            <i class="fa-regular fa-map"></i>
+            <a class="navbar-brand" href="index2.html">
+                <h3 class="heading-logo">VigGo<span>Travels</span></h3>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" 
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index2.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Book</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Explore</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            More
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">About Us</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-signup">
+                        <a class="nav-link" href="signupp.php">Log In / Sign Up</a>
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="searchflight-section">
+    <div class="container-fluid gx-0"> 
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="home-content img-1">
+                        <div class ="content-home">
+                            <h2 class ="heading-home">Placeholder</h2>
+                            <h2 class ="sub-heading-home">JAPAN</h2>
+                        </div>
+                    </div>
+                 </div>
+              </div>
+         </div>
+    </div>
+</div>
+
+
+
+<div class="booking-section">
+    <div class="selection-container"> 
+        <form id="flightSearchForm" method = "POST" action ="searchflight.php">
+            <div class="row g-3 align-items-end"> 
+                
+                <div class="d-flex align-items-center mb-3">
+                            <span class="text-warning me-2" style="font-size: 1.2rem;">&#9992;</span>
+                            <span class="fw-bold me-4">Flight</span>
+                            
+                            <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #007bff; border-color: #007bff;">
+                                    Round-trip
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">One Way</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <label for="origin" class="form-label">Departure</label>
+                    <select class="form-select" id="origin" name="origin" required>
+                        <option value="" selected disabled>Select Origin</option>
+                        <optgroup label="Local Philippine Hubs">
+                            <option value="Manila (MNL)">Manila (MNL)</option>
+                            <option value="Cebu (CEB)">Cebu (CEB)</option>
+                        </optgroup>
+                        <optgroup label="Domestic Destinations">
+                            <option value="Boracay (MPH)">Boracay (MPH)</option>
+                            <option value="Palawan (PPS)">Palawan (PPS)</option>
+                            <option value="Siargao (IAO)">Siargao (IAO)</option>
+                            <option value="Iloilo (ILO)">Iloilo (ILO)</option>
+                        </optgroup>
+                        <optgroup label="International Destinations">
+                            <option value="Seoul (ICN)">Seoul (ICN)</option>
+                            <option value="Singapore (SIN)">Singapore (SIN)</option>
+                            <option value="Tokyo (NRT)">Tokyo (NRT)</option>
+                            <option value="Dubai (DXB)">Dubai (DXB)</option>
+                            <option value="London (LHR)">London (LHR)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <label for="destination" class="form-label">Arrival</label>
+                    <select class="form-select" id="destination" name="destination" required>
+                        <option value="" selected disabled>Select Destination</option>
+                        <optgroup label="Local Philippine Hubs">
+                            <option value="Manila (MNL)">Manila (MNL)</option>
+                            <option value="Cebu (CEB)">Cebu (CEB)</option>
+                        </optgroup>
+                        <optgroup label="Domestic Destinations">
+                            <option value="Boracay (MPH)">Boracay (MPH)</option>
+                            <option value="Palawan (PPS)">Palawan (PPS)</option>
+                            <option value="Siargao (IAO)">Siargao (IAO)</option>
+                            <option value="Iloilo (ILO)">Iloilo (ILO)</option>
+                        </optgroup>
+                        <optgroup label="International Destinations">
+                            <option value="Seoul (ICN)">Seoul (ICN)</option>
+                            <option value="Singapore (SIN)">Singapore (SIN)</option>
+                            <option value="Tokyo (NRT)">Tokyo (NRT)</option>
+                            <option value="Dubai (DXB)">Dubai (DXB)</option>
+                            <option value="London (LHR)">London (LHR)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <label for="departDate" class="form-label">Departure Date</label>
+                    <input type="date" class="form-control" id="departDate" name="depart_date" required>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 col-sm-6" id="returnDateContainer">
+                    <label for="returnDate" class="form-label">Return Date</label>
+                    <input type="date" class="form-control" id="returnDate" name="return_date">
+                </div>
+
+                <div class="col-lg-1 col-md-4 col-sm-6">
+                    <label for="passengers" class="form-label">Pax</label>
+                    <input type="number" class="form-control" id="passengers" name="passengers" value="1" min="1" required>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                        <button type="submit" class="btn btn-primary h-100 w-100 fs- rounded-start-3 rounded-end-3" 
+                        style="background-color: #2a6dac; border-color: #2a6dac;">
+                            Search Flights
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <script src="utils/searchflight.js">
+    </script>
+</body>
+</html>
