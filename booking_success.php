@@ -7,13 +7,16 @@ $connectionOptions = [
     "PWD" => "" 
 ]; 
 $conn = sqlsrv_connect($serverName, $connectionOptions); 
-    echo $varname = $_POST ['destination'];
+
+
 if ($conn === false) {
     // In case of a database connection failure
     $_SESSION['login_error'] = 'Database connection error. Please try again later.';
     header("Location: booking_success.php"); 
     exit();
 }
+
+
 // 1. Protection: Ensure the user is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: login.html"); 

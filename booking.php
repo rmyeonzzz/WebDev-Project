@@ -103,7 +103,7 @@ $user_name = $_SESSION['completename'];
             <i class="fas fa-user-check me-2"></i> Booking for registered user: <strong><?php echo htmlspecialchars($user_name); ?></strong> (User ID: <?php echo $user_id; ?>)
         </div>
 
-        <form action="booking_success.php" method="POST" class="mt-4">
+        <form action="process_booking.php" method="POST" class="mt-4">
             
             <input type="hidden" name="flight_id" value="<?php echo htmlspecialchars($flight_id); ?>">
             <input type="hidden" name="flight_number" value="<?php echo htmlspecialchars($flight_number); ?>">

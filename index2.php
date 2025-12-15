@@ -83,7 +83,7 @@ if (!$is_logged_in) {
                                     <li><a class="dropdown-item" href="#">
                                         <i class="fa-solid fa-user me-2"></i> My Profile
                                     </a></li>
-                                    <li><a class="dropdown-item" href="#">
+                                    <li><a class="dropdown-item" href="booking_history.php">
                                         <i class="fa-solid fa-plane-departure me-2"></i> Booking History
                                     </a></li>
                                     <li><hr class="dropdown-divider"></li>
@@ -148,41 +148,50 @@ if (!$is_logged_in) {
 </div>
 
 <div class="booking-section">
-    <div class="selection-container"> 
+    
+    <div class="booking-tabs mb-4 d-flex justify-content-center gap-2">
+        <button class="tab-btn active btn btn-light fw-bold px-4" onclick="switchTab('flight')" id="btn-flight">
+            ✈️ Flights
+        </button>
+        <button class="tab-btn btn btn-light fw-bold px-4" onclick="switchTab('hotel')" id="btn-hotel">
+            🏨 Hotels
+        </button>
+    </div>
+
+    <div id="flight-container" class="selection-container p-4 bg-white rounded shadow-sm">
         <form id="flightSearchForm" method="POST" action="searchflight.php">
-            <div class="row g-3 align-items-end"> 
+            
+            <div class="d-flex align-items-center mb-3">
+                <span class="text-warning me-2 fs-4">✈️</span>
+                <span class="fw-bold me-4 fs-5">Flight</span>
                 
-                <div class="d-flex align-items-center mb-3">
-                            <span class="text-warning me-2" style="font-size: 1.2rem;">&#9992;</span>
-                            <span class="fw-bold me-4">Flight</span>
-                            
-                            <div class="dropdown">
-                                <button class="btn btn-sm dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #007bff; border-color: #007bff;">
-                                    Round-trip
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">One Way</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                <div class="dropdown">
+                    <button class="btn btn-sm dropdown-toggle fw-bold text-primary border-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Round-trip
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">One Way</a></li>
+                    </ul>
+                </div>
+            </div>
 
-
+            <div class="row g-3 align-items-end">
                 <div class="col-lg-2 col-md-4 col-sm-6">
-                    <label for="origin" class="form-label">Departure</label>
+                    <label for="origin" class="form-label fw-semibold">Departure</label>
                     <select class="form-select" id="origin" name="origin" required>
                         <option value="" selected disabled>Select Origin</option>
                         <optgroup label="Local Philippine Hubs">
-                            <option value="Manila (MNL)">Manila(MNL)</option>
-                            <option value="Cebu (CEB)">Cebu(CEB)</option>
+                            <option value="Manila (MNL)">Manila (MNL)</option>
+                            <option value="Cebu (CEB)">Cebu (CEB)</option>
                         </optgroup>
                         <optgroup label="Domestic Destinations">
-                            <option value="Boracay (MPH)">Boracay(MPH)</option>
-                            <option value="Palawan (PPS)">Palawan(PPS)</option>
-                            <option value="Siargao (IAO)">Siargao(IAO)</option>
-                            <option value="Iloilo (ILO)">Iloilo(ILO)</option>
+                            <option value="Boracay (MPH)">Boracay (MPH)</option>
+                            <option value="Palawan (PPS)">Palawan (PPS)</option>
+                            <option value="Siargao (IAO)">Siargao (IAO)</option>
+                            <option value="Iloilo (ILO)">Iloilo (ILO)</option>
                         </optgroup>
                         <optgroup label="International Destinations">
-                            <option value="Seoul (ICN)">Seoul(ICN)</option>
+                            <option value="Seoul (ICN)">Seoul (ICN)</option>
                             <option value="Singapore (SIN)">Singapore (SIN)</option>
                             <option value="Tokyo (NRT)">Tokyo (NRT)</option>
                             <option value="Dubai (DXB)">Dubai (DXB)</option>
@@ -192,12 +201,12 @@ if (!$is_logged_in) {
                 </div>
                 
                 <div class="col-lg-2 col-md-4 col-sm-6">
-                    <label for="destination" class="form-label">Arrival</label>
+                    <label for="destination" class="form-label fw-semibold">Arrival</label>
                     <select class="form-select" id="destination" name="destination" required>
                         <option value="" selected disabled>Select Destination</option>
                         <optgroup label="Local Philippine Hubs">
-                            <option value="Manila (MNL)">Manila(MNL)</option>
-                            <option value="Cebu (CEB)">Cebu(CEB)</option>
+                            <option value="Manila (MNL)">Manila (MNL)</option>
+                            <option value="Cebu (CEB)">Cebu (CEB)</option>
                         </optgroup>
                         <optgroup label="Domestic Destinations">
                             <option value="Boracay (MPH)">Boracay (MPH)</option>
@@ -216,31 +225,55 @@ if (!$is_logged_in) {
                 </div>
 
                 <div class="col-lg-2 col-md-4 col-sm-6">
-                    <label for="departDate" class="form-label">Departure Date</label>
+                    <label for="departDate" class="form-label fw-semibold">Departure Date</label>
                     <input type="date" class="form-control" id="departDate" name="depart_date" required>
                 </div>
                 
                 <div class="col-lg-2 col-md-4 col-sm-6" id="returnDateContainer">
-                    <label for="returnDate" class="form-label">Return Date</label>
+                    <label for="returnDate" class="form-label fw-semibold">Return Date</label>
                     <input type="date" class="form-control" id="returnDate" name="return_date">
                 </div>
 
                 <div class="col-lg-1 col-md-4 col-sm-6">
-                    <label for="passengers" class="form-label">Pax</label>
+                    <label for="passengers" class="form-label fw-semibold">Pax</label>
                     <input type="number" class="form-control" id="passengers" name="passengers" value="1" min="1" required>
                 </div>
 
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                        <button type="submit" class="btn btn-primary h-100 w-100 fs-5 rounded-start-3 rounded-end-3" 
-                        style="background-color: #2a6dac; border-color: #2a6dac;">
-                            Search Flights
-                        </button>
-                    </div>
-                    
+                <div class="col-lg-3 col-md-12">
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" 
+                    style="background-color: #2a6dac; border: none;">
+                        Search Flights
+                    </button>
                 </div>
             </div>
         </form>
     </div>
+
+    <div id="hotel-container" class="selection-container p-4 bg-white rounded shadow-sm" style="display: none;">
+        
+        <div class="d-flex align-items-center mb-3">
+            <span class="text-warning me-2 fs-4">🏨</span>
+            <span class="fw-bold fs-5">Find a Hotel</span>
+        </div>
+
+        <div class="row g-3 align-items-end">
+            <div class="col-lg-9 col-md-8">
+                <label for="hotel-location-input" class="form-label fw-semibold">Destination / Hotel Name</label>
+                <input type="text" class="form-control" id="hotel-location-input" placeholder="e.g. Philippines, Boracay, Manila...">
+            </div>
+
+            <div class="col-lg-3 col-md-4">
+                <button type="button" onclick="searchHotels()" class="btn btn-primary w-100 py-2 fw-bold" 
+                style="background-color: #2a6dac; border: none;">
+                    Search Hotels
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div id="hotel-results" class="results-grid row g-3">
+        </div>
 </div>
 
 
@@ -486,56 +519,6 @@ if (!$is_logged_in) {
     <div id="attractionResults" class="results-grid"></div>
 </section>
 
-<!-- HOTEL SECTION
-<div class="card p-4 shadow-sm">
-    <form id="hotel-search-form">
-        <div class="row g-3 align-items-end">
-            
-            <div class="col-lg-3 col-md-6 position-relative">
-                <label for="location-text" class="form-label fw-bold">Destination</label>
-                <input type="text" id="location-text" name="location_text" class="form-control" placeholder="Type city or landmark" autocomplete="off" required>
-                
-                <div id="location-suggestions" class="list-group position-absolute w-100 shadow-lg" style="z-index: 1000; max-height: 200px; overflow-y: auto; display:none;">
-                    </div>
-
-                <input type="hidden" id="location" name="location" value=""> 
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <label for="checkin" class="form-label fw-bold">Check-in Date</label>
-                <input type="date" id="checkin" name="checkin" class="form-control" required>
-            </div>
-            
-            <div class="col-lg-3 col-md-6">
-                <label for="checkout" class="form-label fw-bold">Check-out Date</label>
-                <input type="date" id="checkout" name="checkout" class="form-control" required>
-            </div>
-            
-            <div class="col-lg-2 col-md-6">
-                <label for="guests" class="form-label fw-bold">Rooms/Guests</label>
-                <input type="number" id="guests" name="guests" class="form-control" value="1" min="1" required>
-            </div>
-
-            <div class="col-lg-1 col-12 d-grid">
-                <button type="submit" class="btn btn-warning h-100 fs-5 rounded-3">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-    <div class="row mt-4">
-        <div class="col-12">
-            <h3 id="location-title">Hotel Search Results</h3>
-            <p class="text-muted">Searching for: <span id="searched-location-text"></span></p>
-            <pre id="hotel-results-data" style="white-space: pre-wrap; background: #f8f9fa; padding: 15px; border-radius: 5px;">
-                Enter a city and click search to view results.
-            </pre>
-        </div>
-    </div>
-</form>
-</div>
-</div> -->
-
-
 <!--RATING MODAL-->
 <div class="modal fade" id="ratingsModal" tabindex="-1" aria-labelledby="ratingsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
@@ -596,106 +579,7 @@ if (!$is_logged_in) {
     </div>
 </div>
 
-<div id="chat-float-btn" class="btn btn-primary" onclick="toggleChat()">
-    <i class="fas fa-comment-alt"></i>
-</div>
-
-<div id="chat-widget">
-    <div id="chat-header">
-        VigGo AI Assistant
-        <button class="btn btn-sm btn-light" onclick="toggleChat()" aria-label="Close Chat">&times;</button>
-    </div>
-    <div id="chat-output">
-        <div class="message ai-message">
-            <strong>AI:</strong> Hello! I'm your VigGo AI Travel Assistant. How can I help you plan your next flight or trip?
-        </div>
-    </div>
-    <div id="chat-input-area">
-        <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter') sendMessage()">
-        <button class="btn btn-primary" onclick="sendMessage()">Send</button>
-    </div>
-</div>
-
-<script>
-    async function searchAttractions() {
-        const city = document.getElementById('cityInput').value.toLowerCase();
-        const resultsDiv = document.getElementById('attractionResults');
-        
-        if (!city) {
-            alert("Please enter a city name");
-            return;
-        }
-
-        resultsDiv.innerHTML = '<p>Searching for amazing tours...</p>';
-
-        try {
-            // CALL YOUR PHP FILE
-            const response = await fetch('/viggo/utils/get_attractions.php?city=' + city);
-            
-            // CHECK IF FILE EXISTS (404 Error)
-            if (!response.ok) {
-                throw new Error(`PHP file not found (404). Check folder path!`);
-            }
-
-            const jsonData = await response.json();
-
-            // CHECK IF API RETURNED ERROR
-            if (jsonData.error) {
-                resultsDiv.innerHTML = `<p style="color:red; font-weight:bold;">${jsonData.error}</p>`;
-                return;
-            }
-
-            // DISPLAY RESULTS
-            if (jsonData.data && jsonData.data.length > 0) {
-                displayAttractions(jsonData.data);
-            } else {
-                resultsDiv.innerHTML = '<p>No tours found for this location.</p>';
-            }
-
-        } catch (error) {
-            console.error('Error:', error);
-            resultsDiv.innerHTML = `<p style="color:red">Error: ${error.message}</p>`;
-        }
-    }
-
-    function displayAttractions(items) {
-        const resultsDiv = document.getElementById('attractionResults');
-        resultsDiv.innerHTML = ''; 
-
-        items.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'attraction-card';
-            
-            // 1. Get Image (Use the real one from Amadeus if available)
-            let imageUrl = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&q=60'; // Fallback
-            if (item.pictures && item.pictures.length > 0) {
-                imageUrl = item.pictures[0];
-            }
-
-            // 2. Get Price
-            let priceInfo = '';
-            if (item.price) {
-                priceInfo = `<p class="price"><strong>Price:</strong> ${item.price.amount} ${item.price.currencyCode}</p>`;
-            }
-
-            // 3. Build Card HTML
-            card.innerHTML = `
-                <div class="image-container">
-                    <img src="${imageUrl}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
-                </div>
-                <div class="card-content">
-                    <h3>${item.name}</h3>
-                    <p class="desc">${item.shortDescription || "No description available."}</p>
-                    ${priceInfo}
-                    <a href="${item.bookingLink}" target="_blank" class="view-btn">Book Now</a>
-                </div>
-            `;
-            
-            resultsDiv.appendChild(card);
-        });
-    }
-</script>
-
+<script src="script.js"></script>
 </body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>

@@ -1,147 +1,102 @@
 <?php
 session_start();
 
-// Ensure the user is logged in before processing the booking
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: login.html"); 
-    exit;
+// Redirect if accessed directly without login or data
+if (!isset($_SESSION['loggedin']) || !isset($_POST['flight_id'])) {
+    header("Location: index.php"); // Or your home page
+    exit();
 }
 
-// 1. Database Connection Setup
+// Database Connection
 $serverName = "LAPTOP-1AD6EHQ4";
-$connectionOptions = [ 
-     "Database" => "DLSU", 
-     "Uid" => "", 
-     "PWD" => "" 
-]; 
+$connectionOptions = ["Database" => "DLSU", "Uid" => "", "PWD" => ""]; 
 $conn = sqlsrv_connect($serverName, $connectionOptions); 
 
 if ($conn === false) {
-    $_SESSION['booking_error'] = 'Database connection error during booking process. Please try again.';
-    header("Location: searchflight.php");
-    exit();
+    die("System Error: Unable to connect to database.");
 }
 
-// 2. Retrieve Data from POST and Session
-$user_id = $_SESSION['USERID'];
-$booking_date = date('Y-m-d H:i:s'); // Record the booking timestamp
+// Gather Data
+$flight_id      = $_POST['flight_id'];
+$passengers     = intval($_POST['passengers']);
+$total_amount   = floatval($_POST['total_amount']);
+$card_number    = preg_replace('/\D/', '', $_POST['card_number']); // Remove spaces
+$masked_card    = '************' . substr($card_number, -4); // Mask the card
 
-// Flight details retrieved from the hidden fields in booking.php
-// Use the null coalescing operator (??) for safety
-$flight_id = $_POST['flight_id'] ?? null;
-$flight_number = $_POST['flight_number'] ?? null;
-$origin = $_POST['origin'] ?? null;
-$destination = $_POST['destination'] ?? null;
-$depart_date = $_POST['depart_date'] ?? null;
-$price_per_seat = floatval($_POST['price'] ?? 0);
-$passengers = intval($_POST['passengers'] ?? 0);
-$total_amount = floatval($_POST['total_amount'] ?? 0);
-$travel_type = $_POST['travel_type'] ?? 'Economy';
-
-
-// 3. Basic Validation
-if (empty($flight_id) || $passengers < 1 || $total_amount <= 0 || empty($depart_date)) {
-    $_SESSION['booking_error'] = 'Required booking details are missing or invalid.';
-    header("Location: searchflight.php"); 
-    exit();
-}
-
-// 4. Start SQL Server Transaction Block
-// This is critical: if any query fails, the entire change is rolled back.
+// Start Transaction
 if (sqlsrv_begin_transaction($conn) === false) {
-    $_SESSION['booking_error'] = 'Failed to start database transaction.';
-    header("Location: searchflight.php");
-    exit();
+    die("System Error: Could not start transaction.");
 }
 
-$success = true; // Flag to track overall transaction success
+try {
+    // 1. Insert Booking Draft
+    $sql_insert = "INSERT INTO AGILA_BOOKINGDRAFT 
+        (USERID, flight_id, flight_number, origin, destination, depart_date, 
+         price, passengers, total_amount, status, travel_type)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); 
+        SELECT SCOPE_IDENTITY() as new_id"; 
 
-// --- TRANSACTION STEP 1: Insert Booking Record ---
-// NOTE: Verify these column names EXACTLY match your AGILA_BOOKINGDRAFT table!
-$sql_insert = "INSERT INTO AGILA_BOOKINGDRAFT 
-    (USERID, flight_id, flight_number, origin, destination, depart_date, 
-     price, passengers, total_amount, status, travel_type)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // 11 placeholders (Correct)
+    $params_insert = [
+        $_SESSION['USERID'], 
+        $flight_id, 
+        $_POST['flight_number'], 
+        $_POST['origin'], 
+        $_POST['destination'], 
+        $_POST['depart_date'], 
+        $_POST['price'], 
+        $passengers, 
+        $total_amount, 
+        'Confirmed', 
+        $_POST['travel_type']
+    ];
+
+    $stmt_insert = sqlsrv_query($conn, $sql_insert, $params_insert);
+    if ($stmt_insert === false) throw new Exception("Booking Insert Failed");
+
+    // Retrieve the new Booking ID
+    sqlsrv_next_result($stmt_insert); 
+    sqlsrv_fetch($stmt_insert);
+    $booking_id = sqlsrv_get_field($stmt_insert, 0);
+
+    // 2. Insert Payment
+    // Note: 'transaction_date' is handled automatically by DB Default now
+    $sql_payment = "INSERT INTO AGILA_PAYMENT 
+                    (bookingid, USERID, amount, payment_method, card_masked, status) 
+                    VALUES (?, ?, ?, ?, ?, ?)";
     
-$params_insert = [
-    $user_id, 
-    $flight_id, 
-    $flight_number, 
-    $origin, 
-    $destination, 
-    $depart_date, 
-    $price_per_seat, 
-    $passengers, 
-    $total_amount, 
-    'Pending', // <-- ADDED: Explicitly set a default status for the new booking
-    $travel_type, 
-]; // 11 parameters (Correct)
+    $params_payment = [
+        $booking_id,    
+        $_SESSION['USERID'],       
+        $total_amount,  
+        'Credit Card',
+        $masked_card,   
+        'Completed'         
+    ];
 
-$stmt_insert = sqlsrv_query($conn, $sql_insert, $params_insert);
+    $stmt_payment = sqlsrv_query($conn, $sql_payment, $params_payment);
+    if ($stmt_payment === false) throw new Exception("Payment Insert Failed");
 
-if ($stmt_insert === false) {
-    $success = false;
-    // The rollback block further down will now capture the specific error if it fails
-}
-// --- TRANSACTION STEP 2: Update Available Seats ---
-if ($success) {
-    // Decrement the 'seats' column in the flights table
-    // The WHERE clause checks that seats >= passengers before updating.
+    // 3. Update Seats
     $sql_update = "UPDATE DUMMYFLIGHTS2 
                    SET seats = seats - ? 
-                   WHERE flight_id = ? 
-                   AND seats >= ?"; 
-
+                   WHERE flight_id = ? AND seats >= ?";
     $params_update = [$passengers, $flight_id, $passengers];
-
     $stmt_update = sqlsrv_query($conn, $sql_update, $params_update);
 
-    // Check if the update failed OR if the seat count was too low (no rows affected)
-    if ($stmt_update === false || sqlsrv_rows_affected($stmt_update) != 1) {
-        $success = false;
+    if ($stmt_update === false || sqlsrv_rows_affected($stmt_update) == 0) {
+        throw new Exception("Seat Update Failed (Sold out or Invalid ID)");
     }
-}
 
-
-// 5. Commit or Rollback
-if ($success) {
+    // Commit Transaction
     sqlsrv_commit($conn);
-    
-    // Success: Set session message and redirect to confirmation page
-    $_SESSION['booking_status'] = 'success';
-    $_SESSION['last_booking'] = [
-        'flight_number' => $flight_number,
-        'passengers' => $passengers,
-        'total_amount' => $total_amount,
-        'date' => $depart_date
-    ];
-    // ADD THE LINE BELOW
-    session_write_close(); // <-- ADD THIS LINE
-    header("Location: booking_success.php");
-    
-} else {
+
+    // Redirect to Success Page
+    header("Location: payment_success.php?booking_id=" . $booking_id);
+    exit();
+
+} catch (Exception $e) {
+    // Rollback changes if anything went wrong
     sqlsrv_rollback($conn);
-    
-    // Failure: Get error details and set session message
-    $errors = sqlsrv_errors();
-    $error_message = 'Booking failed. ';
-    
-    if ($errors) {
-        // Display detailed error for debugging
-        $error_message .= 'Database Error: ' . $errors[0]['message'] . ' | SQL State: ' . $errors[0]['SQLSTATE'];
-    } else {
-        $error_message .= 'The flight may no longer have enough seats available.';
-    }
-    
-    $_SESSION['booking_error'] = $error_message;
-
-    // Redirect back to searchflight.php to show the error
-    header("Location: searchflight.php"); 
+    die("<h2>Booking Failed</h2><p>Error: " . $e->getMessage() . "</p><a href='search.php'>Return to Search</a>");
 }
-
-// 6. Cleanup
-if (isset($stmt_insert)) sqlsrv_free_stmt($stmt_insert);
-if (isset($stmt_update)) sqlsrv_free_stmt($stmt_update);
-sqlsrv_close($conn);
-exit();
 ?>

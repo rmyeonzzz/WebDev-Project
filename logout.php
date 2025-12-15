@@ -18,6 +18,6 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // 3. Redirect the user back to the home page or login page
-header("Location: searchflight.php");
+header("Location: index.html");
 exit;
 ?>
