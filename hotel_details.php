@@ -20,6 +20,75 @@ $score = $_GET['score'] ?? 'N/A';
     <style>
         .hotel-header { height: 400px; object-fit: cover; width: 100%; }
         .feature-icon { font-size: 1.2rem; color: #2a6dac; width: 30px; }
+        /* Card Container */
+        /* Card Container */
+        .hotel-card {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 24px;
+        width: 100%;             
+        max-width: 320px;        
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 280px;       /* Increased height slightly for the huge price */
+        }
+
+        /* Price Section */
+        .price-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;                /* Reduced gap to keep label close to the huge number */
+        }
+
+        .price-label {
+        color: #555;
+        font-size: 16px;
+        font-weight: 500;
+        }
+
+        .price-value {
+        color: #FFC107;          /* Yellow Color (Amber/Gold for visibility) */
+        font-size: 130px;        /* Massive font size to fill container */
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -4px;    /* Tighten spacing for that big impact look */
+        margin-left: -8px;       /* Slight offset to align the huge dollar sign visually */
+        }
+
+        /* Footer Section */
+        .card-footer {
+        margin-top: auto; 
+        }
+
+        .divider {
+        border: 0;
+        border-top: 1px solid #e0e0e0;
+        margin: 16px 0;
+        }
+
+        .rating-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+
+        .review-label {
+        color: #333;
+        font-size: 14px;
+        }
+
+        .rating-badge {
+        background-color: #006ce4;
+        color: white;
+        font-weight: bold;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -69,26 +138,23 @@ $score = $_GET['score'] ?? 'N/A';
                 </div>
             </div>
 
-            <div class="col-lg-4">
-                <div class="card border-0 shadow-sm position-sticky" style="top: 20px;">
-                    <div class="card-body p-4">
-                        <h5 class="text-muted mb-1">Price starts from</h5>
-                        <h2 class="text-primary fw-bold mb-3"><?php echo htmlspecialchars($price); ?></h2>
-                        
-                        <div class="d-grid gap-2">
-                            <a href="https://www.booking.com/hotel/ph/<?php echo $hotel_id; ?>.html" target="_blank" class="btn btn-warning btn-lg fw-bold">
-                                Check Availability
-                            </a>
-                            <button class="btn btn-outline-secondary">Save to Wishlist</button>
-                        </div>
+            <div class="hotel-card">
+  
+                <div class="price-section">
+                        <span class="price-label">Price starts from</span>
+                        <span class="price-value">$69</span>
+                    </div>
 
-                        <hr>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>Review Score</span>
-                            <span class="badge bg-primary fs-6">8.5 / 10</span>
+                    <div class="card-footer">
+                        <hr class="divider">
+                        <div class="rating-row">
+                        <span class="review-label">Review Score</span>
+                        <span class="rating-badge">8.5 / 10</span>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>

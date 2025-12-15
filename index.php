@@ -4,17 +4,18 @@ session_start();
 // Determine if the user is logged in
 $is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
 
+// Initialize variables to empty strings to avoid errors if not logged in
+$user_display_name = '';
+$user_full_name = '';
+
 // If logged in, get the username for display
 if ($is_logged_in) {
-    $user_display_name = htmlspecialchars($_SESSION['username']); 
-    $user_full_name = htmlspecialchars($_SESSION['completename']);
+    // Check if keys exist to prevent warnings
+    $user_display_name = isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'User';
+    $user_full_name = isset($_SESSION['completename']) ? htmlspecialchars($_SESSION['completename']) : 'User';
 }
 
-// Optional: Add protection to redirect users who access index2.php without being logged in
-if (!$is_logged_in) {
-    header('Location: login.html');
-    exit;
-}
+// NOTE: The redirect block (header Location) has been REMOVED so guests can access this page.
 ?>
 
 <!DOCTYPE html>
@@ -23,9 +24,9 @@ if (!$is_logged_in) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles2.css">
+    <link rel="stylesheet" href="styles2.css"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&family=Mynerve&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&family=Mynerve&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src='https://kit.fontawesome.com/4c729db828.js' crossorigin='anonymous'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
@@ -37,7 +38,7 @@ if (!$is_logged_in) {
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-transparent">
         <div class="container-fluid">
             <i class="fa-regular fa-map"></i>
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="index.php">
                 <h3 class="heading-logo">VigGo<span>Travels</span></h3>
             </a>
             <div>
@@ -52,7 +53,7 @@ if (!$is_logged_in) {
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index2.php">Home</a>
+                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Book</a>
@@ -70,34 +71,35 @@ if (!$is_logged_in) {
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
                     </li>
-                        <?php if ($is_logged_in): ?>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-user-circle me-1"></i> 
-                                    <?php echo $user_display_name; ?>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><h6 class="dropdown-header text-truncate">Signed in as <?php echo $user_display_name; ?></h6></li>
-                                    <li><hr class="dropdown-divider"></li>
 
-                                    <li><a class="dropdown-item" href="#">
-                                        <i class="fa-solid fa-user me-2"></i> My Profile
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="booking_history.php">
-                                        <i class="fa-solid fa-plane-departure me-2"></i> Booking History
-                                    </a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-danger fw-bold" href="logout.php">
-                                        <i class="fa-solid fa-sign-out-alt me-2"></i> Log Out
-                                    </a></li>
-                                </ul>
-                            </li>
-                        <?php else: ?>
-                            <li class="nav-signup">
-                                <a class="nav-link" href="signupp.php">Log In / Sign Up</a>
-                            </li>
-                        <?php endif; ?>
-                </ul>
+                    <?php if ($is_logged_in): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user-circle me-1"></i> 
+                                <?php echo $user_display_name; ?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><h6 class="dropdown-header text-truncate">Signed in as <?php echo $user_display_name; ?></h6></li>
+                                <li><hr class="dropdown-divider"></li>
+
+                                <li><a class="dropdown-item" href="#">
+                                    <i class="fa-solid fa-user me-2"></i> My Profile
+                                </a></li>
+                                <li><a class="dropdown-item" href="booking_history.php">
+                                    <i class="fa-solid fa-plane-departure me-2"></i> Booking History
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger fw-bold" href="logout.php">
+                                    <i class="fa-solid fa-sign-out-alt me-2"></i> Log Out
+                                </a></li>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-signup">
+                            <a class="nav-link" href="login.html">Log In / Sign Up</a>
+                        </li>
+                    <?php endif; ?>
+                    </ul>
             </div>
         </div>
     </nav>
@@ -165,14 +167,11 @@ if (!$is_logged_in) {
                 <span class="text-warning me-2 fs-4">✈️</span>
                 <span class="fw-bold me-4 fs-5">Flight</span>
                 
-                <div class="dropdown">
-                    <button class="btn btn-sm dropdown-toggle fw-bold text-primary border-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Round-trip
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">One Way</a></li>
-                    </ul>
-                </div>
+                <select class="form-select form-select-sm fw-bold text-primary border-primary w-auto" 
+                     id="travel_type" name="travel_type" onchange="toggleReturnDate()">
+                    <option value="Round Trip">Round-trip</option>
+                    <option value="One Way">One Way</option>
+                </select>
             </div>
 
             <div class="row g-3 align-items-end">
@@ -271,13 +270,13 @@ if (!$is_logged_in) {
         </div>
     </div>
 </div>
+
 <div class="container mt-5">
     <div id="hotel-results" class="results-grid row g-3">
-        </div>
+    </div>
 </div>
 
 
-<!--TOP PICKS SECTION-->
 <div class="top-picks-section">
     <div class="container">
         
@@ -510,7 +509,7 @@ if (!$is_logged_in) {
 </div>
 
 <section id="tourist-attractions" class="attraction-section">
-    <h2>Find Tourist Attractions</h2>
+    <h2>Activities</h2>
     <div class="search-box">
         <input type="text" id="cityInput" placeholder="Enter city (e.g., Manila, Cebu)...">
         <button onclick="searchAttractions()">Search</button>
@@ -519,7 +518,6 @@ if (!$is_logged_in) {
     <div id="attractionResults" class="results-grid"></div>
 </section>
 
-<!--RATING MODAL-->
 <div class="modal fade" id="ratingsModal" tabindex="-1" aria-labelledby="ratingsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content ratings-modal-content">
@@ -579,17 +577,90 @@ if (!$is_logged_in) {
     </div>
 </div>
 
-<script src="script.js"></script>
-</body>
+<footer class="viggo-footer">
+    <div class="footer-content">
+        
+        <div class="footer-column brand-col">
+            <img src="path-to-your-viggo-logo.png" alt="VigGo Logo" class="footer-logo"> 
+            <p class="tagline">Travel with no limits.</p>
+            <p class="footer-desc">Your gateway to unforgettable adventures. Discover the Philippines' hidden gems with VigGo.</p>
+        </div>
+
+        <div class="footer-column">
+            <h4>Explore</h4>
+            <ul class="footer-links">
+                <li><a href="#">Destinations</a></li>
+                <li><a href="#">Activities</a></li>
+                <li><a href="#">Hotels</a></li>
+                <li><a href="#">Flight Deals</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h4>Support</h4>
+            <ul class="footer-links">
+                <li><a href="#">About Viggo</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Use</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+                <a href="#" class="social-link">FB</a>
+                <a href="#" class="social-link">IG</a>
+                <a href="#" class="social-link">TK</a>
+            </div>
+            <p class="copyright">© 2025 VigGo. All rights reserved.</p>
+        </div>
+        
+    </div>
+</footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
 
+    <script src="script.js"></script>
+    <script src="utils/scroll.js"></script>
+    
     <script>
+        // 1. Define the function directly here to ensure it exists
+        function toggleReturnDate() {
+            var tripType = document.getElementById("travel_type");
+            var returnInput = document.getElementById("returnDate");
+
+            if (!tripType || !returnInput) return; // Safety check
+
+            if (tripType.value === "One Way") {
+                // Disable and Grey out
+                returnInput.disabled = true;
+                returnInput.required = false;
+                returnInput.style.backgroundColor = "#e9ecef";
+                returnInput.style.cursor = "not-allowed";
+                returnInput.value = "";
+            } else {
+                // Enable and Restore
+                returnInput.disabled = false;
+                returnInput.required = true;
+                returnInput.style.backgroundColor = "white";
+                returnInput.style.cursor = "default";
+            }
+        }
+
+        // 2. Attach the listener manually
+        var dropdown = document.getElementById("travel_type");
+        if (dropdown) {
+            dropdown.addEventListener("change", toggleReturnDate);
+            // Run it once on load to set the initial state
+            toggleReturnDate();
+        }
+
         // --- Configuration Constants ---
         const CHAT_API_URL = 'http://localhost:3000/chat'; 
         const HOTEL_API_URL = 'http://localhost:5000/api/makcorps-search';
     
-
         // --- Chat Elements ---
         const chatWidget = document.getElementById('chat-widget');
         const outputDiv = document.getElementById('chat-output');
@@ -601,12 +672,13 @@ if (!$is_logged_in) {
         const hotelResultsData = document.getElementById('hotel-results-data');
         const locationTitle = document.getElementById('location-title');
         const searchedLocationText = document.getElementById('searched-location-text');
-        const locationTextInput = document.getElementById('location-text'); // The visible text input
-        const locationSuggestionsDiv = document.getElementById('location-suggestions'); // The suggestions dropdown
+        const locationTextInput = document.getElementById('location-text'); 
+        const locationSuggestionsDiv = document.getElementById('location-suggestions'); 
 
         // --- Chat Functions ---
 
         function toggleChat() {
+            if (!chatWidget) return;
             chatWidget.style.display = chatWidget.style.display === 'flex' ? 'none' : 'flex';
             if (chatWidget.style.display === 'flex') {
                 inputField.focus();
@@ -614,6 +686,7 @@ if (!$is_logged_in) {
         }
 
         function appendMessage(sender, text) {
+            if (!outputDiv) return;
             const msgDiv = document.createElement('div');
             msgDiv.className = `message ${sender}-message`;
             
@@ -623,10 +696,11 @@ if (!$is_logged_in) {
                 
             msgDiv.innerHTML = content;
             outputDiv.appendChild(msgDiv);
-            outputDiv.scrollTop = outputDiv.scrollHeight; // Auto-scroll to bottom
+            outputDiv.scrollTop = outputDiv.scrollHeight; 
         }
 
         async function sendMessage() {
+            if (!inputField) return;
             const message = inputField.value.trim();
             if (!message) return;
 
@@ -665,232 +739,6 @@ if (!$is_logged_in) {
                 appendMessage('ai', 'Connection Error. Is the Node.js server running on port 3000?');
             }
         }
-
-
-        // --- Location Autocomplete Logic ---
-
-        // let locationSearchTimeout;
-
-        // if (locationTextInput) {
-        //     // Event listener for user typing (debounced)
-        //     locationTextInput.addEventListener('input', () => {
-        //         clearTimeout(locationSearchTimeout);
-                
-        //         locationSearchTimeout = setTimeout(() => {
-        //             const query = locationTextInput.value.trim();
-        //             // Ensure the hidden location key is cleared until a new one is selected
-        //             document.getElementById('location').value = ''; 
-                    
-        //             if (query.length > 2) {
-        //                 fetchLocationSuggestions(query);
-        //             } else {
-        //                 locationSuggestionsDiv.style.display = 'none';
-        //             }
-        //         }, 300); 
-        //     });
-
-        //     // Hide suggestions when the input field loses focus
-        //     locationTextInput.addEventListener('blur', () => {
-        //         // Use a slight delay so the click event on a suggestion registers first
-        //         setTimeout(() => {
-        //             locationSuggestionsDiv.style.display = 'none';
-        //         }, 200); 
-        //     });
-        // }
-
-        // async function fetchLocationSuggestions(query) {
-        //     try {
-        //         const response = await fetch(LOCATION_API_URL, {
-        //             method: 'POST',
-        //             headers: { 'Content-Type': 'application/json' },
-        //             body: JSON.stringify({ query: query }),
-        //         });
-
-        //         const data = await response.json();
-
-        //         if (data.status === 'OK' && data.autocomplete) {
-        //             displaySuggestions(data.autocomplete);
-        //         } else {
-        //             locationSuggestionsDiv.style.display = 'none';
-        //         }
-        //     } catch (error) {
-        //         console.error("Location Fetch Error:", error);
-        //         locationSuggestionsDiv.style.display = 'none';
-        //     }
-        // }
-
-        // function displaySuggestions(suggestions) {
-        //     locationSuggestionsDiv.innerHTML = ''; // Clear previous suggestions
-        //     if (suggestions && suggestions.length > 0) {
-                
-        //         suggestions.slice(0, 5).forEach(item => { // Show up to 5 suggestions
-        //             // Only show relevant types (City, Airport, Neighborhood)
-        //             if (item.type === 'CITY' || item.type === 'AIRPORT' || item.type === 'NEIGHBORHOOD') {
-        //                 const suggestionItem = document.createElement('a');
-        //                 suggestionItem.href = '#';
-        //                 suggestionItem.className = 'list-group-item list-group-item-action';
-        //                 suggestionItem.innerHTML = `
-        //                     ${item.name} <span class="badge bg-secondary">${item.type}</span>
-        //                 `;
-                        
-        //                 suggestionItem.addEventListener('mousedown', (e) => {
-        //                     e.preventDefault(); 
-                            
-        //                     // Set the text input and the hidden key
-        //                     locationTextInput.value = item.name;
-        //                     document.getElementById('location').value = item.location_key;
-                            
-        //                     locationSuggestionsDiv.style.display = 'none';
-        //                 });
-
-        //                 locationSuggestionsDiv.appendChild(suggestionItem);
-        //             }
-        //         });
-        //         locationSuggestionsDiv.style.display = 'block';
-        //     } else {
-        //         locationSuggestionsDiv.style.display = 'none';
-        //     }
-        // }
-
-
-
-        // --- Hotel Search Logic for Xotelo API ---
-
-        // if (hotelSearchForm) {
-        //     hotelSearchForm.addEventListener('submit', handleHotelSearch);
-        // }
-        //             async function handleHotelSearch(event) {
-        //     event.preventDefault();
-
-        //     const destinationText = document.getElementById('location-text').value.trim();
-        //     const checkin = document.getElementById('checkin').value;
-        //     const checkout = document.getElementById('checkout').value;
-        //     const rooms = parseInt(document.getElementById('guests').value);
-        //     const adults = rooms; // or ask user for number of adults
-
-        //     // 1) Get City ID first
-        //     const mapRes = await fetch('/api/makcorps-map', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({ name: destinationText })
-        //     });
-        //     const mapData = await mapRes.json();
-        //     if (!Array.isArray(mapData) || mapData.length == 0) {
-        //         alert('City not found.');
-        //         return;
-        //     }
-        //     const cityId = mapData[0].document_id;
-
-        //     // 2) Request hotels
-        //     const hotelRes = await fetch('/api/makcorps-search', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({
-        //             destination: cityId,
-        //             checkin, checkout, rooms, adults
-        //         })
-        //     });
-
-        //     const hotelData = await hotelRes.json();
-        //     document.getElementById('hotel-results-data').textContent = JSON.stringify(hotelData, null, 2);
-        // }
-
-    //    async function handleHotelSearch(event) {
-    //         event.preventDefault();
-
-    //         // *** CORRECTED ELEMENT IDs TO MATCH YOUR HTML FORM ***
-    //         const destinationInput = document.getElementById('location-text');
-    //         const checkin = document.getElementById('checkin').value;
-    //         const checkout = document.getElementById('checkout').value;
-    //         const rooms = document.getElementById('guests').value;
-    //         // ******************************************************
-
-    //         const destination = destinationInput.value; // Get the user's typed city name
-            
-    //         // Basic validation
-    //         if (!destination || destination.trim() === '') {
-    //             alert('Please enter a destination.');
-    //             return;
-    //         }
-    //         if (!checkin || !checkout || !rooms || isNaN(parseInt(rooms)) || parseInt(rooms) <= 0) {
-    //             alert('Please check your dates and room count.');
-    //             return;
-    //         }
-
-    //         // Select the result display elements (must exist in HTML)
-    //         const hotelResultsData = document.getElementById('hotel-results-data');
-    //         const locationTitle = document.getElementById('location-title');
-    //         const searchedLocationText = document.getElementById('searched-location-text');
-
-    //         // Show loading state, but only if the elements exist
-    //         if (locationTitle) locationTitle.textContent = 'Searching...';
-    //         if (searchedLocationText) searchedLocationText.textContent = destination;
-    //         if (hotelResultsData) hotelResultsData.textContent = 'Contacting hotel API via server...';
-            
-    //         // Helper function to update display or log console error if elements are missing
-    //         const updateResultDisplay = (title, data) => {
-    //             if (locationTitle) locationTitle.textContent = title;
-    //             if (hotelResultsData) hotelResultsData.textContent = data;
-    //             console.log('Search Result:', title, data);
-    //         };
-
-    //         try {
-    //             const response = await fetch(HOTEL_API_URL, {
-    //                 method: 'POST',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                 },
-    //                 body: JSON.stringify({ 
-    //                 destination: destination,
-    //                 checkin: checkin,
-    //                 checkout: checkout,
-    //                 rooms: rooms
-    //             }),
-    //             });
-
-    //             const data = await response.json();
-
-    //             if (response.ok) {
-    //                 const hotels = data; 
-                    
-    //                 if (hotels && hotels.length > 0) {
-    //                     const topHotels = hotels.slice(0, 10);
-                        
-    //                     const hotelsList = topHotels.map((hotel, index) => {
-    //                         const price = hotel.price ? `₱${hotel.price.toFixed(2)}` : 'N/A';
-    //                         const vendor = hotel.vendor || 'Unknown Vendor';
-    //                         const rating = hotel.rating ? ` ★ ${hotel.rating}/5.0` : 'N/A';
-
-    //                         return `${index + 1}. **${hotel.hotelName}**\n   - Price: ${price} (via ${vendor})\n   - Rating: ${rating}\n`;
-    //                     }).join('\n');
-                        
-    //                     updateResultDisplay(
-    //                         `Search Results for ${destination}`,
-    //                         `Search Successful! Found ${hotels.length} hotels (showing top 10 for ${destination}):\n\n${hotelsList}`
-    //                     );
-                        
-    //                 } else {
-    //                     updateResultDisplay(
-    //                         `No Results`,
-    //                         `Search successful, but no hotels were found for ${destination}.`
-    //                     );
-    //                 }
-    //             } else {
-    //                 updateResultDisplay(
-    //                     `Error`,
-    //                     `Server Connection Error (${response.status}): ${data.error || 'Could not process request on the backend.'}`
-    //                 );
-    //             }
-
-    //         } catch (error) {
-    //             console.error('Hotel Search Network Error:', error);
-    //             updateResultDisplay(
-    //                 `Network Error`,
-    //                 `Network Error: Failed to fetch from server. Ensure your backend is running and reachable at ${HOTEL_API_URL}.`
-    //             );
-    //         }
-    //     }
     </script>
-    <script src="utils/scroll.js"></script>
-
+</body>
 </html>

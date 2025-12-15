@@ -49,7 +49,7 @@ if ($result_check && $row = sqlsrv_fetch_array($result_check, SQLSRV_FETCH_ASSOC
         exit();
     } else {
         // Default redirect for a normal login
-        header("Location: index2.php"); 
+        header("Location: index.php"); 
         exit();
     }
     

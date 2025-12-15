@@ -3,7 +3,7 @@ session_start();
 
 // minimal security: if no booking ID, redirect to home
 if (!isset($_GET['booking_id'])) {
-    header("Location: index2.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -39,7 +39,7 @@ $booking_id = $_GET['booking_id'];
             <strong><?php echo htmlspecialchars($booking_id); ?></strong>
         </div>
 
-        <a href="index2.php" class="btn">Return to Home</a>
+        <a href="index.php" class="btn">Return to Home</a>
     </div>
 
 </body>
