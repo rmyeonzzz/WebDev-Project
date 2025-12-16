@@ -1,9 +1,9 @@
 <?php 
 $serverName="LAPTOP-1AD6EHQ4"; 
 $connectionOptions=[ 
-"Database"=>"DLSU", 
-"Uid"=>"", 
-"PWD"=>"" 
+    "Database"=>"DLSU", 
+    "Uid"=>"", 
+    "PWD"=>"" 
 ]; 
 $conn=sqlsrv_connect($serverName, $connectionOptions); 
 if($conn==false) 

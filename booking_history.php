@@ -58,9 +58,9 @@ while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="index2.php">VigGo Flights</a>
+        <a class="navbar-brand fw-bold" href="index.php">VigGo Flights</a>
         <div class="ms-auto">
-            <a href="index2.php" class="btn btn-outline-light btn-sm">Back to Home</a>
+            <a href="index.php" class="btn btn-outline-light btn-sm">Back to Home</a>
         </div>
     </div>
 </nav>

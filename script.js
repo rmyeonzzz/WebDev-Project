@@ -1,12 +1,3 @@
-/* =========================================
-   1. UTILITY FUNCTIONS & UI LOGIC
-   ========================================= */
-
-
-   
-/**
- * Switch between Flight and Hotel tabs.
- */
 function switchTab(tab) {
     const flightContainer = document.getElementById('flight-container');
     const hotelContainer = document.getElementById('hotel-container');
