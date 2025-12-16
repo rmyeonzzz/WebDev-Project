@@ -4,74 +4,133 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <body class="login-body"> 
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            
-            <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5">
-                
-                <div class="card shadow-lg border-0 login-card">
-                    
-                    <div class="card-header text-center bg-primary text-white py-3">
-                        <i class="fa-solid fa-plane-departure fa-2x mb-2"></i>
-                        <h2 class="h4 mb-0">Log in your Agila Account</h2>
-                    </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src='https://kit.fontawesome.com/4c729db828.js' crossorigin='anonymous'></script>
 
-                    <div class="card-body p-4">
-                    
-                        <form method="POST" action="login.php">
-                            <div class="mb-3">
-                                <label for="username" class="form-label small">Username</label>
-                                <input type="text" class="form-control" name="username" id="username" required/>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label small">Password</label>
-                                <input type="password" class="form-control" name="passwordd" id="password" required/>
-                            </div>
-                            
-                            <p class="text-danger small fw-bold" id="error-msg">
-                                </p>
-                            
-                            <input type="hidden" name="redirect_url" id="redirect_url" value="">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar-container {
+            position: fixed;
+            top: 0;
+            left: 0; 
+            width: 100%;
+            z-index: 1000;
+            background-color: #FF5804; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+        }
+        .nav-link, .navbar-brand {
+            color: white !important;
+            font-weight: 700;
+        }
+        .btn-outline-light {
+            font-weight: 700;
+        }
+        .main-content {
+            flex: 1;
+            padding-top: 100px;
+            padding-bottom: 50px;
+        }
+        .card-header {
+            background-color: #FF5804 !important;
+            border-bottom: none;
+        }
+        .btn-primary {
+            background-color: #2a6dac;
+            border: none;
+            font-weight: 700;
+        }
+        .btn-primary:hover {
+            background-color: #1e5285;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            margin-top: auto;
+            text-align: center;
+        }
+    </style>
+  </head>
 
-                            <button type="submit" class="btn btn-primary btn-lg w-100">
-                                Log In
-                            </button>
-                        </form>
-                        
-                    </div>
-                    
+  <body> 
+    <header class="navbar-container">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.php">
+                     VigGo
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    </ul>
                 </div>
-                <div class="card-footer text-center bg-light py-3 border-0">
-                    Don't have an account yet? 
-                    <a href="signupp.php" 
-                       class="btn btn-sm btn-outline-secondary ms-1 fw-bold">
-                        Sign Up
-                    </a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-lg border-0 login-card">
+                        <div class="card-header text-center text-white py-4">
+                            <i class="fa-solid fa-plane-departure fa-2x mb-2"></i>
+                            <h2 class="h4 mb-0 fw-bold">Log in your Agila Account</h2>
+                        </div>
+                        <div class="card-body p-4">
+                            <form method="POST" action="login.php">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label small fw-bold">Username</label>
+                                    <input type="text" class="form-control" name="username" id="username" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label small fw-bold">Password</label>
+                                    <input type="password" class="form-control" name="passwordd" id="password" required/>
+                                </div>
+                                <p class="text-danger small fw-bold" id="error-msg"></p>
+                                <input type="hidden" name="redirect_url" id="redirect_url" value="">
+                                <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">
+                                    Log In
+                                </button>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center bg-light py-3 border-0">
+                            Don't have an account yet? 
+                            <a href="signup_reg.php" class="btn btn-sm btn-outline-secondary ms-1 fw-bold">
+                                Sign Up
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer>
+        <div class="container">
+            <p class="mb-0 small">&copy; 2025 VigGo Travel. All rights reserved.</p>
+        </div>
+    </footer>
     
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Read the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const redirect = urlParams.get('redirect');
-        
-        // If a redirect parameter exists, set the value of the hidden input field
         if (redirect) {
             document.getElementById('redirect_url').value = redirect;
         }
     });
-    </script>
-                                      
+    </script>                     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 </body>
 </html>

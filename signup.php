@@ -26,7 +26,7 @@ $connectionOptions=[
     $row = sqlsrv_fetch_array($result_check);
     if($row){
         $_SESSION['signup_status'] ='user_exists';
-        header("Location: signupp.php");
+        header("Location: signup_reg.php");
         exit();
     }
 
@@ -41,16 +41,16 @@ $connectionOptions=[
             if($result==true){
             $_SESSION ['signup_status'] ='success';
             $_SESSION['succes_redirect'] ='login.html';
-            header("Location: signupp.php");
+            header("Location: signup_reg.php");
         } else {
                 $_SESSION['signup_status'] = 'insert_fail';
-                header("Location: signupp.php");
+                header("Location: signup_reg.php");
                 exit();
             }
 
         }else{
             $_SESSION['signup_status'] = 'password_mismatch';
-            header("Location: signupp.php");
+            header("Location: signup_reg.php");
             exit();
 }
 ?>

@@ -17,9 +17,6 @@ function switchTab(tab) {
     }
 }
 
-/**
- * Fetch weather data from Open-Meteo (No API Key required).
- */
 async function getWeather(lat, lon) {
     try {
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
@@ -29,7 +26,6 @@ async function getWeather(lat, lon) {
         const temp = data.current_weather.temperature;
         const code = data.current_weather.weathercode;
 
-        // Map weather codes to emojis
         let icon = "☀️";
         if (code >= 1 && code <= 3) icon = "⛅";
         if (code >= 45 && code <= 48) icon = "🌫️";
@@ -45,10 +41,6 @@ async function getWeather(lat, lon) {
     }
 }
 
-/* =========================================
-   2. TOURIST ATTRACTIONS LOGIC
-   ========================================= */
-
 async function searchAttractions() {
     const city = document.getElementById('cityInput').value.toLowerCase().trim();
     const resultsDiv = document.getElementById('attractionResults');
@@ -58,7 +50,11 @@ async function searchAttractions() {
         return;
     }
 
-    resultsDiv.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary"></div><p>Finding best tours...</p></div>';
+    resultsDiv.innerHTML = `
+        <div class="text-center p-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted fw-bold">Finding best tours...</p>
+        </div>`;
 
     try {
         const response = await fetch('/viggo/utils/get_attractions.php?city=' + city);
@@ -70,12 +66,11 @@ async function searchAttractions() {
         const jsonData = await response.json();
 
         if (jsonData.error) {
-            resultsDiv.innerHTML = `<p style="color:red; font-weight:bold;">${jsonData.error}</p>`;
+            resultsDiv.innerHTML = `<div class="alert alert-danger fw-bold">${jsonData.error}</div>`;
             return;
         }
 
         if (jsonData.data && jsonData.data.length > 0) {
-            // Fetch weather using coordinates of the first result
             let weatherData = null;
             const firstItem = jsonData.data[0];
 
@@ -86,38 +81,36 @@ async function searchAttractions() {
             displayAttractions(jsonData.data, weatherData, city);
 
         } else {
-            resultsDiv.innerHTML = '<p>No tours found for this location.</p>';
+            resultsDiv.innerHTML = '<div class="alert alert-warning">No tours found for this location.</div>';
         }
 
     } catch (error) {
         console.error('Attraction Search Error:', error);
-        resultsDiv.innerHTML = `<p style="color:red">Error: ${error.message}</p>`;
+        resultsDiv.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
     }
 }
 
 function displayAttractions(items, weather, cityName) {
     const resultsDiv = document.getElementById('attractionResults');
     resultsDiv.innerHTML = '';
+    resultsDiv.className = 'row g-4'; 
 
-    // Render Weather Header if data exists
     if (weather) {
         const weatherHeader = document.createElement('div');
-        weatherHeader.className = 'col-12 mb-4 text-center';
+        weatherHeader.className = 'col-12 mb-2 text-center';
         weatherHeader.innerHTML = `
-            <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; display: inline-block;">
-                <h4 style="margin:0; color: #0275d8; text-transform: capitalize;">
-                    ${weather.icon} Current Weather in ${cityName}
-                </h4>
-                <span style="font-size: 1.5rem; font-weight: bold;">${weather.temp}°C</span>
+            <div class="card border-0 shadow-sm d-inline-block bg-primary text-white p-3 rounded-pill">
+                <h5 class="m-0 fw-bold text-capitalize">
+                    ${weather.icon} ${cityName}: <span class="ms-2">${weather.temp}°C</span>
+                </h5>
             </div>
         `;
         resultsDiv.appendChild(weatherHeader);
     }
 
-    // Render Attraction Cards
     items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'attraction-card';
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4';
 
         let imageUrl = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&q=60';
         if (item.pictures && item.pictures.length > 0) {
@@ -126,28 +119,28 @@ function displayAttractions(items, weather, cityName) {
 
         let priceInfo = '';
         if (item.price) {
-            priceInfo = `<p class="price"><strong>Price:</strong> ${item.price.amount} ${item.price.currencyCode}</p>`;
+            priceInfo = `<h6 class="text-success fw-bold mb-3">${item.price.amount} ${item.price.currencyCode}</h6>`;
         }
 
-        card.innerHTML = `
-            <div class="image-container">
-                <img src="${imageUrl}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
-            </div>
-            <div class="card-content">
-                <h3>${item.name}</h3>
-                <p class="desc">${item.shortDescription || "No description available."}</p>
-                ${priceInfo}
-                <a href="${item.bookingLink}" target="_blank" class="view-btn">Book Now</a>
+        col.innerHTML = `
+            <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="${imageUrl}" class="w-100 h-100 object-fit-cover" alt="${item.name}" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-truncate">${item.name}</h5>
+                    <p class="card-text text-muted small flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                        ${item.shortDescription || "No description available."}
+                    </p>
+                    ${priceInfo}
+                    <a href="${item.bookingLink}" target="_blank" class="btn btn-primary w-100 fw-bold rounded-pill">Book Now</a>
+                </div>
             </div>
         `;
 
-        resultsDiv.appendChild(card);
+        resultsDiv.appendChild(col);
     });
 }
-
-/* =========================================
-   3. HOTEL SEARCH LOGIC (Booking.com)
-   ========================================= */
 
 async function searchHotels() {
     const query = document.getElementById('hotel-location-input').value.trim();
@@ -161,14 +154,13 @@ async function searchHotels() {
     resultsContainer.innerHTML = `
         <div class="col-12 text-center py-5">
             <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2 text-muted">Searching for "${query}"...</p>
+            <p class="mt-2 text-muted fw-bold">Searching for "${query}"...</p>
         </div>`;
 
     const apiKey = '329580a304msh4d65ca35ca58b79p10bebfjsnd06f2e179e59';
     const apiHost = 'booking-com15.p.rapidapi.com';
 
     try {
-        // Step 1: Find Destination ID
         const locUrl = `https://${apiHost}/api/v1/hotels/searchDestination?query=${encodeURIComponent(query)}`;
         const locRes = await fetch(locUrl, {
             method: 'GET',
@@ -177,23 +169,23 @@ async function searchHotels() {
         const locJson = await locRes.json();
 
         if (!locJson.status || !locJson.data || locJson.data.length === 0) {
-            resultsContainer.innerHTML = '<p class="text-center text-danger">No locations found. Please try a specific city name.</p>';
+            resultsContainer.innerHTML = '<div class="alert alert-warning text-center">No locations found. Please try a specific city name.</div>';
             return;
         }
 
-        // Prioritize city results, fallback to first result
         let destData = locJson.data.find(item => item.search_type === 'city') || locJson.data[0];
 
         if (destData.search_type === 'country') {
             resultsContainer.innerHTML = `
-                <div class="col-12 text-center text-warning p-4">
-                    <h5>Location Too Broad</h5>
-                    <p>Please search for a specific city (e.g., Manila, Makati, Cebu City).</p>
+                <div class="col-12 text-center p-4">
+                    <div class="alert alert-warning">
+                        <h5>Location Too Broad</h5>
+                        <p class="mb-0">Please search for a specific city (e.g., Manila, Makati, Cebu City).</p>
+                    </div>
                 </div>`;
             return;
         }
 
-        // Step 2: Fetch Hotels (Book 60 days out for availability)
         const today = new Date();
         today.setDate(today.getDate() + 60);
         const nextDay = new Date(today);
@@ -216,7 +208,6 @@ async function searchHotels() {
         });
         const hotelJson = await hotelRes.json();
 
-        // Step 3: Render Hotel Results
         resultsContainer.innerHTML = '';
         const hotels = hotelJson.data?.hotels || hotelJson.data?.result || [];
 
@@ -235,30 +226,32 @@ async function searchHotels() {
                 }
 
                 const card = `
-                    <div class="hotel-card">
-                        <img 
-                            src="${imageUrl}" 
-                            alt="${name}" 
-                            referrerpolicy="no-referrer"
-                            onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Image+Unavailable';"
-                        >
-                        <div class="hotel-info">
-                            <h5 class="fw-bold text-truncate">${name}</h5>
-                            <div class="d-flex align-items-center mb-2">
-                                <span class="badge bg-primary me-2">${score}</span>
-                                <small class="text-muted">Review Score</small>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                            <div style="height: 200px; position: relative;">
+                                <img 
+                                    src="${imageUrl}" 
+                                    class="w-100 h-100 object-fit-cover" 
+                                    alt="${name}" 
+                                    referrerpolicy="no-referrer"
+                                    onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Image+Unavailable';"
+                                >
+                                <span class="badge bg-primary position-absolute top-0 end-0 m-3 shadow-sm">${score}</span>
                             </div>
-                            <p class="text-muted small mb-1">📍 ${destData.name}</p>
-                            
-                            <div class="d-flex justify-content-between align-items-end mt-3">
-                                <div>
-                                    <small class="text-muted d-block">Est. per night</small>
-                                    <span class="fw-bold text-dark fs-5">${price}</span>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold text-truncate">${name}</h5>
+                                <p class="text-muted small mb-3"><i class="fas fa-map-marker-alt text-danger me-1"></i> ${destData.name}</p>
+                                
+                                <div class="mt-auto d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <small class="text-muted d-block" style="font-size: 0.8rem;">Est. per night</small>
+                                        <span class="fw-bold text-dark fs-5">${price}</span>
+                                    </div>
+                                    <a href="hotel_details.php?id=${hotel.hotel_id}&image=${encodeURIComponent(imageUrl)}&name=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}" 
+                                        class="btn btn-outline-primary fw-bold rounded-pill px-3">
+                                        View Details
+                                    </a>
                                 </div>
-                                <a href="hotel_details.php?id=${hotel.hotel_id}&image=${encodeURIComponent(imageUrl)}&name=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}" 
-                                    class="btn btn-sm btn-outline-primary">
-                                    View Details
-                                </a>
                             </div>
                         </div>
                     </div>`;
@@ -267,13 +260,15 @@ async function searchHotels() {
         } else {
             resultsContainer.innerHTML = `
                 <div class="col-12 text-center mt-4">
-                    <h5>No hotels found.</h5>
-                    <p class="text-muted">Try a different city or date.</p>
+                    <div class="alert alert-light border shadow-sm">
+                        <h5 class="mb-1">No hotels found.</h5>
+                        <p class="text-muted mb-0">Try a different city or date.</p>
+                    </div>
                 </div>`;
         }
 
     } catch (error) {
         console.error('Hotel API Error:', error);
-        resultsContainer.innerHTML = `<p class="text-danger text-center">Unable to load data. Please try again later.</p>`;
+        resultsContainer.innerHTML = `<div class="alert alert-danger text-center">Unable to load data. Please try again later.</div>`;
     }
 }

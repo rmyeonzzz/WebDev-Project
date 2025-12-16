@@ -1,8 +1,6 @@
 <?php
-// amadeus_auth.php
-
 function getAmadeusToken() {
-    // YOUR KEYS (Replace if needed, but these are the ones you gave me)
+
     $apiKey = 'kYXb7Sbl9p17m2TIr94y0XnchBKBukkc';
     $apiSecret = 'OGhQkszvZpXkFIqJ'; 
     

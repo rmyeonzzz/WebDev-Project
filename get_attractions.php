@@ -1,13 +1,10 @@
-<!-- <?php
-// get_attractions.php
-
+<?php
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 
 try {
-    // 1. GET INPUT
     $param = isset($_GET['term']) ? $_GET['term'] : (isset($_GET['city']) ? $_GET['city'] : '');
     $city = trim($param);
 
@@ -16,11 +13,9 @@ try {
         exit;
     }
 
-    // 2. AMADEUS CREDENTIALS
     $clientId = "nry6rhtrc3BzW7AklTuAVXvO3hHWrCc1"; 
     $clientSecret = "Z4vvo9EYn9AOzTzm"; 
 
-    // 3. HELPER: API CALL FUNCTION
     function callApi($url, $token = null, $postFields = null) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -42,7 +37,6 @@ try {
         return json_decode($response, true);
     }
 
-    // 4. AUTHENTICATE
     $authUrl = 'https://test.api.amadeus.com/v1/security/oauth2/token';
     $authData = "grant_type=client_credentials&client_id=$clientId&client_secret=$clientSecret";
     
@@ -52,16 +46,13 @@ try {
     }
     $token = $tokenRes['access_token'];
 
-    // 5. GET COORDINATES (LOGIC FIXED)
     $lat = '';
     $lon = '';
     
-    // A. Check your local list first (Optimization for PH cities)
     $localDb = [
         'manila' => ['lat' => '14.5995', 'lon' => '120.9842'],
         'cebu' => ['lat' => '10.3157', 'lon' => '123.8854'],
         'boracay' => ['lat' => '11.9674', 'lon' => '121.9248'],
-        // ... add others if you like, but it's not strictly necessary anymore
     ];
     $cityKey = strtolower($city);
 
@@ -69,7 +60,6 @@ try {
         $lat = $localDb[$cityKey]['lat'];
         $lon = $localDb[$cityKey]['lon'];
     } else {
-        // B. FALLBACK: Ask API for coordinates (Fixes "London" error)
         $geoUrl = "https://test.api.amadeus.com/v1/reference-data/locations?subType=CITY&keyword=" . urlencode($city) . "&page[limit]=1";
         $geoRes = callApi($geoUrl, $token);
 
@@ -81,8 +71,6 @@ try {
         }
     }
 
-    // 6. FETCH ACTIVITIES
-    // We found the coordinates (either from local DB or API), now get the tours.
     $actUrl = "https://test.api.amadeus.com/v1/shopping/activities?latitude=$lat&longitude=$lon&radius=20&page[limit]=10";
     $actRes = callApi($actUrl, $token);
 
@@ -111,7 +99,6 @@ try {
     echo json_encode(['data' => $finalResults]);
 
 } catch (Exception $e) {
-    // Return empty array on error instead of breaking the page
     echo json_encode(['data' => [], 'error' => $e->getMessage()]);
 }
-?> -->
+?>

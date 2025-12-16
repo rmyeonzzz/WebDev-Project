@@ -1,13 +1,10 @@
 <?php
 session_start();
 
-
 $is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
-
 
 $user_display_name = '';
 $user_full_name = '';
-
 
 if ($is_logged_in) {
     $user_display_name = isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'User';
@@ -28,6 +25,7 @@ if ($is_logged_in) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src='https://kit.fontawesome.com/4c729db828.js' crossorigin='anonymous'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="styles2.css"> 
 
@@ -49,7 +47,6 @@ if ($is_logged_in) {
             border-radius: 0 0 15px 15px; 
         }
 
-
         .navbar-container .navbar {
             padding: 10px 30px; 
         }
@@ -58,10 +55,9 @@ if ($is_logged_in) {
             background-color: #FF5804 !important; 
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
             border-bottom: none;
-            width: 100%; */
-            border-radius: 0; */
+            width: 100%; 
+            border-radius: 0; 
         }
-
 
         .navbar-container.scrolled .nav-link,
         .navbar-container.scrolled .heading-logo,
@@ -91,20 +87,13 @@ if ($is_logged_in) {
         .navbar-container.scrolled .logo-img {
             height: 70px; 
         }
-        /* --- FORCE ALL BUTTONS TO BE BOLD --- */
-        .btn,                /* Bootstrap Buttons */
-        button,              /* Generic Buttons */
-        .tab-btn,            /* Flight/Hotel Tabs */
-        .btn-home,           /* Slider Buttons */
-        .book-now-btn,       /* Card Overlay Buttons */
-        .ratings-button,
-        .nav-link {    /* Star Rating Buttons */
-            font-weight: 700 !important; /* 700 is standard Bold, 800 is Extra Bold */
-            letter-spacing: 0.5px;       /* Adds a tiny bit of space so bold text is readable */
+       
+        .btn, button,.tab-btn,.btn-home,.book-now-btn,.ratings-button,.nav-link {  
+            font-weight: 700 !important; 
+            letter-spacing: 0.5px;       
         }
     </style>
 </head>
-
 
 <body>
 <header class="navbar-container">
@@ -127,7 +116,9 @@ if ($is_logged_in) {
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="searchflight1.php">Book</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutContactModal">About Us</a>
+                    </li>
                     <?php if ($is_logged_in): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -156,9 +147,8 @@ if ($is_logged_in) {
                 <div class="carousel-item active">
                     <div class="home-content img-1">
                         <div class ="content-home">
-                            <h3 class ="heading-home">Placeholder</h3>
-                            <h2 class ="sub-heading-home">JAPAN</h2>
-                            
+                            <h2 class ="heading-home">JAPAN</h2>
+                            <h2 class ="sub-heading-home">Sa VigGo, Go, Go, Go na 'to!</h2>
                          </div>
                     </div>
                 </div>
@@ -166,9 +156,8 @@ if ($is_logged_in) {
                 <div class="carousel-item">
                     <div class="home-content img-2">
                         <div class ="content-home">
-                            <h2 class ="heading-home">Placeholder</h2>
-                            <h2 class ="sub-heading-home">CEBU</h2>
-                            
+                            <h2 class ="heading-home">CEBU</h2>
+                            <h2 class ="sub-heading-home">Sa VigGo, Go, Go, Go na 'to!</h2>
                          </div>
                     </div>
                 </div>
@@ -176,9 +165,8 @@ if ($is_logged_in) {
                 <div class="carousel-item">
                     <div class="home-content img-3">
                         <div class ="content-home">
-                            <h2 class ="heading-home">Placeholder</h2>
-                            <h2 class ="sub-heading-home">SIQUIJOR</h2>
-                           
+                            <h2 class ="heading-home">SIQUIJOR</h2>
+                            <h2 class ="sub-heading-home">Sa VigGo, Go, Go, Go na 'to!</h2>
                         </div>
                     </div>
                 </div>
@@ -197,7 +185,6 @@ if ($is_logged_in) {
 </div>
 
 <div class="booking-section">
-    
     <div class="booking-tabs mb-4 d-flex justify-content-center gap-2">
         <button class="tab-btn active btn btn-light fw-bold px-4" onclick="switchTab('flight')" id="btn-flight">
             ✈️ Flights
@@ -208,7 +195,7 @@ if ($is_logged_in) {
     </div>
 
     <div id="flight-container" class="selection-container p-4 bg-white rounded shadow-sm">
-        <form id="flightSearchForm" method="POST" action="searchflight.php">
+        <form id="flightSearchForm" method="POST" action="flights.php">
             
             <div class="d-flex align-items-center mb-3">
                 <span class="text-warning me-2 fs-4">✈️</span>
@@ -287,7 +274,7 @@ if ($is_logged_in) {
 
                 <div class="col-lg-3 col-md-12">
                     <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" 
-                    style="background-color: #2a6dac; border: none;">
+                    style="background-color: rgb(7,80,86); border: none;">
                         Search Flights
                     </button>
                 </div>
@@ -323,7 +310,6 @@ if ($is_logged_in) {
     </div>
 </div>
 
-
 <div class="top-picks-section">
     <div class="container">
         
@@ -343,27 +329,23 @@ if ($is_logged_in) {
                     </div>
                     
                     <div class="card-body p-1">
-                        
                         <div class="d-flex justify-content-between align-items-center w-100">
-                            
                             <div class="d-flex align-items-center">
                                 <i class="fa-sharp fa-solid fa-location-dot me-1 text-danger small-icon"></i>
                                 <h6 class="card-title mb-0 small-title">Boracay Island, Aklan, PH</h6>
                             </div>
-                            
                             <a class="btn btn-sm ratings-button" data-bs-toggle="modal" data-bs-target="#ratingsModal">
                                 <i class="fa-solid fa-star me-1"></i> 4.6
                             </a>
-                            
                         </div>
-                        
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-6 mb-4 mb-lg-0">
-                <h2>Top Picks this Month</h2>
-                <p>
+                <h2 class="hot-title">HOT THIS MONTH!!! 🔥</h2>
+                
+                <p class="hot-description">
                 Discover our handpicked destinations and tour packages specially selected for this month. 
                 From relaxing beaches to thrilling adventures and cultural escapes, 
                 these top picks highlight the most popular and highly recommended experiences right now. 
@@ -383,15 +365,12 @@ if ($is_logged_in) {
                         
                         <div class="col">
                             <div class="card h-100 card-hover-effect border-0">
-                                
                                 <div class="position-relative">
                                     <img src="pictures/banaue/20180608_155606.jpg" class="card-img-top" alt="Banaue Rice Terraces">
-                                    
                                     <div class="booking-overlay">
                                         <a href="searchflight1.php" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
                                     </div>
                                 </div>
-                                
                                 <div class="card-body p-1">
                                     <div class="d-flex justify-content-between align-items-center w-100">
                                         <div class="d-flex align-items-center">
@@ -408,15 +387,12 @@ if ($is_logged_in) {
                         
                         <div class="col">
                             <div class="card h-100 card-hover-effect border-0">
-                                
                                 <div class="position-relative">
                                     <img src="pictures/cebu/IMG_4187.JPG" class="card-img-top" alt="Cebu Island">
-                                    
                                     <div class="booking-overlay">
                                         <a href="searchflight1.php" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
                                     </div>
                                 </div>
-                                
                                 <div class="card-body p-1">
                                     <div class="d-flex justify-content-between align-items-center w-100">
                                         <div class="d-flex align-items-center">
@@ -433,15 +409,12 @@ if ($is_logged_in) {
                         
                         <div class="col">
                             <div class="card h-100 card-hover-effect border-0">
-                                
                                 <div class="position-relative">
                                     <img src="pictures/bacolod/IMG_2536.JPG" class="card-img-top" alt="Bacolod City">
-                                    
                                     <div class="booking-overlay">
                                         <a href="searchflight1.php" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
                                     </div>
                                 </div>
-                                
                                 <div class="card-body p-1">
                                     <div class="d-flex justify-content-between align-items-center w-100">
                                         <div class="d-flex align-items-center">
@@ -464,15 +437,12 @@ if ($is_logged_in) {
                         
                         <div class="col">
                             <div class="card h-100 card-hover-effect border-0">
-                                
                                 <div class="position-relative">
                                     <img src="pictures/london/7b199af2-1fa5-43eb-949e-d8face96497e.jpg" class="card-img-top" alt="Palawan">
-                                    
                                     <div class="booking-overlay">
                                         <a href="searchflight1.php" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
                                     </div>
                                 </div>
-                                
                                 <div class="card-body p-1">
                                     <div class="d-flex justify-content-between align-items-center w-100">
                                         <div class="d-flex align-items-center">
@@ -489,15 +459,12 @@ if ($is_logged_in) {
                         
                         <div class="col">
                             <div class="card h-100 card-hover-effect border-0">
-                                
                                 <div class="position-relative">
                                     <img src="pictures/dubai/att.U9RjRRtjsSuf51-rQSF-d76MLDeUNHR_G7_OKDvO5b4.jpg" class="card-img-top" alt="Baguio">
-                                    
                                     <div class="booking-overlay">
                                         <a href="searchflight1.php" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
                                     </div>
                                 </div>
-                                
                                 <div class="card-body p-1">
                                     <div class="d-flex justify-content-between align-items-center w-100">
                                         <div class="d-flex align-items-center">
@@ -514,15 +481,12 @@ if ($is_logged_in) {
                         
                         <div class="col">
                             <div class="card h-100 card-hover-effect border-0">
-                                
                                 <div class="position-relative">
                                     <img src="pictures/singapore/558982038_25285750857677027_7060521419416537381_n_2.jpg" class="card-img-top" alt="Vigan">
-                                    
                                     <div class="booking-overlay">
                                         <a href="searchflight1.php" class="btn btn-lg btn-warning book-now-btn">Book Now</a>
                                     </div>
                                 </div>
-                                
                                 <div class="card-body p-1">
                                     <div class="d-flex justify-content-between align-items-center w-100">
                                         <div class="d-flex align-items-center">
@@ -555,8 +519,6 @@ if ($is_logged_in) {
     </div>
 </div>
 
-
-<!--EXPLORE MORE-->
 <section class="explore-section">
     <div class="container">
         <div class="explore-header">
@@ -719,46 +681,112 @@ if ($is_logged_in) {
     </div>
 </section>
 
-
-<footer class="viggo-footer">
-    <div class="footer-content">
-        
-        <div class="footer-column brand-col">
-            <img src="pictures/logo4.png" alt="VigGo Logo" class="footer-logo"> 
-            <p class="tagline">Travel with no limits.</p>
-            <p class="footer-desc">Your gateway to unforgettable adventures. Discover the Philippines' hidden gems with VigGo.</p>
-        </div>
-
-        <div class="footer-column">
-            <h4>Explore</h4>
-            <ul class="footer-links">
-                <li><a href="#">Destinations</a></li>
-                <li><a href="#">Activities</a></li>
-                <li><a href="#">Hotels</a></li>
-                <li><a href="#">Flight Deals</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h4>Support</h4>
-            <ul class="footer-links">
-                <li><a href="#">About Viggo</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Use</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h4>Follow Us</h4>
-            <div class="social-icons">
-                <a href="#" class="social-link">FB</a>
-                <a href="#" class="social-link">IG</a>
-                <a href="#" class="social-link">TK</a>
+<section class="why-viggo-section">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            
+            <div class="col-lg-6 col-md-12 text-center text-lg-end mb-4 mb-lg-0">
+                <img src="pictures/clipart.png" alt="Travelers Illustration" class="img-fluid main-illustration">
             </div>
-            <p class="copyright">© 2025 VigGo. All rights reserved.</p>
+
+            <div class="col-lg-6 col-md-12 text-center text-lg-start">
+                <div class="why-text-content">
+                    <h2 class="why-title">Why VigGo Travels?</h2>
+                    <p class="why-description">
+                        "We don't just list tours; we curate experiences. Every destination and guide is rigorously vetted by our team 
+                        to ensure you get authentic, high-quality, and safe adventures."
+                    </p>
+                </div>
+            </div>
+
         </div>
-        
+    </div>
+</section>
+
+<div class="modal fade" id="aboutContactModal" tabindex="-1" aria-labelledby="aboutContactLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content about-modal-content">
+            
+            <div class="modal-header about-modal-header">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                
+                <div class="text-center w-100">
+                    <img src="pictures/logo4.png" alt="VigGo Logo" class="about-logo-img">
+                    <h4 class="modal-title fw-bold mt-2">VigGo Travels</h4>
+                    <p class="small mb-0 opacity-75">Travel with no limits.</p>
+                </div>
+            </div>
+
+            <div class="modal-body p-4 text-center">
+                
+                <div class="mb-4">
+                    <h6 class="text-uppercase text-muted small fw-bold mb-2">Created By</h6>
+                    <h3 class="creator-name">Samantha Imboy</h3>
+                </div>
+
+                <div class="divider-line"></div>
+
+                <div class="contact-section mt-4">
+                    <h6 class="text-uppercase text-muted small fw-bold mb-3">Get in Touch</h6>
+
+                    <div class="contact-item">
+                        <div class="icon-box icon-orange">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div class="text-start">
+                            <small class="d-block text-muted">Call Us</small>
+                            <span class="contact-text">0912-345-6789</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="icon-box icon-blue">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div class="text-start">
+                            <small class="d-block text-muted">Email Us</small>
+                            <a href="mailto:isx2059@dlsud.edu.ph" class="contact-link">isx2059@dlsud.edu.ph</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer justify-content-center border-0 pt-0 pb-4">
+                <small class="text-muted">© 2025 VigGo Travels Project</small>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer class="viggo-footer-redesigned">
+    <div class="container-fluid px-4">
+        <div class="footer-content-wrapper">
+            
+            <div class="copyright-section">
+                <i class="fa-regular fa-copyright me-2"></i> 
+                <span>2025 VigGo Travels. All rights reserved.</span>
+            </div>
+
+            <div class="brand-social-section">
+                
+                <div class="footer-brand-group me-4">
+                    <img src="pictures/logo4.png" alt="VigGo Logo" class="footer-logo-small">
+                </div>
+
+                <div class="social-icons-group">
+                    <a href="https://facebook.com" target="_blank" class="social-link">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="social-link">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
 </footer>
 
@@ -766,142 +794,48 @@ if ($is_logged_in) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
 
     <script src="script.js"></script>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const navbar = document.querySelector(".navbar-container");
-        
-        function checkScroll() {
-            // Log to console to verify it's working
-            console.log("Scrolling: " + window.scrollY);
-            
-            if (window.scrollY > 50) {
-                navbar.classList.add("scrolled");
-            } else {
-                navbar.classList.remove("scrolled");
-            }
-        }
-
-        // Run on load and on scroll
-        checkScroll();
-        window.addEventListener("scroll", checkScroll);
-    });
-</script>
     
     <script>
-        // 1. Define the function directly here to ensure it exists
-        function toggleReturnDate() {
-            var tripType = document.getElementById("travel_type");
-            var returnInput = document.getElementById("returnDate");
-
-            if (!tripType || !returnInput) return; // Safety check
-
-            if (tripType.value === "One Way") {
-                // Disable and Grey out
-                returnInput.disabled = true;
-                returnInput.required = false;
-                returnInput.style.backgroundColor = "#e9ecef";
-                returnInput.style.cursor = "not-allowed";
-                returnInput.value = "";
-            } else {
-                // Enable and Restore
-                returnInput.disabled = false;
-                returnInput.required = true;
-                returnInput.style.backgroundColor = "white";
-                returnInput.style.cursor = "default";
+            const navbar = document.querySelector(".navbar-container");
+            function checkScroll() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add("scrolled");
+                } else {
+                    navbar.classList.remove("scrolled");
+                }
             }
-        }
+            checkScroll();
+            window.addEventListener("scroll", checkScroll);
 
-        // 2. Attach the listener manually
-        var dropdown = document.getElementById("travel_type");
-        if (dropdown) {
-            dropdown.addEventListener("change", toggleReturnDate);
-            // Run it once on load to set the initial state
-            toggleReturnDate();
-        }
+            // 2. Return Date Toggle Logic
+            const tripType = document.getElementById("travel_type");
+            const returnInput = document.getElementById("returnDate");
 
-    //     // --- Configuration Constants ---
-    //     const CHAT_API_URL = 'http://localhost:3000/chat'; 
-    //     const HOTEL_API_URL = 'http://localhost:5000/api/makcorps-search';
-    
-    //     // --- Chat Elements ---
-    //     const chatWidget = document.getElementById('chat-widget');
-    //     const outputDiv = document.getElementById('chat-output');
-    //     const inputField = document.getElementById('user-input');
+            function toggleReturnDate() {
+                if (!tripType || !returnInput) return;
 
-    //     // --- Hotel Search Elements ---
-    //     const hotelSearchForm = document.getElementById('hotel-search-form');
-    //     const hotelResultsDiv = document.getElementById('hotel-results');
-    //     const hotelResultsData = document.getElementById('hotel-results-data');
-    //     const locationTitle = document.getElementById('location-title');
-    //     const searchedLocationText = document.getElementById('searched-location-text');
-    //     const locationTextInput = document.getElementById('location-text'); 
-    //     const locationSuggestionsDiv = document.getElementById('location-suggestions'); 
+                if (tripType.value === "One Way") {
+                    returnInput.disabled = true;
+                    returnInput.required = false;
+                    returnInput.value = ""; 
+                    returnInput.style.backgroundColor = "#e9ecef"; 
+                    returnInput.style.cursor = "not-allowed";
+                } else {
+                    returnInput.disabled = false;
+                    returnInput.required = true;
+                    returnInput.style.backgroundColor = "white";
+                    returnInput.style.cursor = "default";
+                }
+            }
 
-    //     // --- Chat Functions ---
-
-    //     function toggleChat() {
-    //         if (!chatWidget) return;
-    //         chatWidget.style.display = chatWidget.style.display === 'flex' ? 'none' : 'flex';
-    //         if (chatWidget.style.display === 'flex') {
-    //             inputField.focus();
-    //         }
-    //     }
-
-    //     function appendMessage(sender, text) {
-    //         if (!outputDiv) return;
-    //         const msgDiv = document.createElement('div');
-    //         msgDiv.className = `message ${sender}-message`;
-            
-    //         const content = sender === 'user' 
-    //             ? text 
-    //             : `<strong>AI:</strong> ${text}`;
-                
-    //         msgDiv.innerHTML = content;
-    //         outputDiv.appendChild(msgDiv);
-    //         outputDiv.scrollTop = outputDiv.scrollHeight; 
-    //     }
-
-    //     async function sendMessage() {
-    //         if (!inputField) return;
-    //         const message = inputField.value.trim();
-    //         if (!message) return;
-
-    //         appendMessage('user', message);
-    //         inputField.value = '';
-            
-    //         const waitingDiv = document.createElement('div');
-    //         waitingDiv.className = 'message ai-message waiting-message';
-    //         waitingDiv.innerHTML = '<strong>AI:</strong> Typing...';
-    //         outputDiv.appendChild(waitingDiv);
-    //         outputDiv.scrollTop = outputDiv.scrollHeight; 
-
-    //         try {
-    //             const response = await fetch(CHAT_API_URL, {
-    //                 method: 'POST',
-    //                 headers: { 'Content-Type': 'application/json' },
-    //                 body: JSON.stringify({ message: message }),
-    //             });
-
-    //             const data = await response.json();
-                
-    //             outputDiv.removeChild(waitingDiv);
-
-    //             if (data.response) {
-    //                 appendMessage('ai', data.response);
-    //             } else if (data.error) {
-    //                 appendMessage('ai', `Sorry, an error occurred: ${data.error}`);
-    //             }
-
-    //         } catch (error) {
-    //             console.error("Frontend Fetch Error:", error);
-    //             const lastMsg = outputDiv.lastElementChild;
-    //             if (lastMsg && lastMsg.classList.contains('waiting-message')) {
-    //                 outputDiv.removeChild(lastMsg);
-    //             }
-    //             appendMessage('ai', 'Connection Error. Is the Node.js server running on port 3000?');
-    //         }
-    //     }
-    // </script>
+            if (tripType) {
+                // Listen for changes
+                tripType.addEventListener("change", toggleReturnDate);
+                // Run on page load
+                toggleReturnDate();
+            }
+        });
+    </script>
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         const navbar = document.querySelector(".navbar-container");
@@ -914,34 +848,26 @@ if ($is_logged_in) {
             }
         }
 
-        // Run on load and on scroll
         checkScroll();
         window.addEventListener("scroll", checkScroll);
     });
 </script>
 <script>
-    // 1. Filtering Logic
     function filterSelection(category, btn) {
         var cards = document.getElementsByClassName("explore-card");
         
-        // Remove 'active' class from all buttons
         var btns = document.getElementsByClassName("filter-btn");
         for (var i = 0; i < btns.length; i++) {
             btns[i].classList.remove("active");
         }
-        // Add 'active' to the clicked button
         btn.classList.add("active");
 
-        // Filter the cards
         for (var i = 0; i < cards.length; i++) {
-            // Get categories from data attribute (e.g. "local beaches")
             var cardCats = cards[i].getAttribute("data-category");
             
             if (category === 'all') {
                 cards[i].classList.remove("hidden");
             } else {
-                // Check if card category string includes the selected category
-                // This allows a card with "local beaches" to show up in both "local" and "beaches"
                 if (cardCats.indexOf(category) > -1) {
                     cards[i].classList.remove("hidden");
                 } else {
@@ -951,7 +877,6 @@ if ($is_logged_in) {
         }
     }
 
-    // 2. Horizontal Scrolling Logic
     function scrollCards(amount) {
         const container = document.getElementById('exploreScroller');
         container.scrollBy({
@@ -961,7 +886,6 @@ if ($is_logged_in) {
     }
 </script>
 <script>
-//1. Fetch Activities from PHP API
     document.addEventListener("DOMContentLoaded", function() {
         fetchActivities();
     });
@@ -970,29 +894,23 @@ if ($is_logged_in) {
         const container = document.getElementById('activityScroller');
         
         try {
-            // Call the PHP file we created
             const response = await fetch('get_activities.php');
             const data = await response.json();
 
-            // Clear loading spinner
             container.innerHTML = '';
 
             if (data.data && data.data.length > 0) {
                 data.data.forEach(activity => {
-                    // Get image or use placeholder
                     const imageSrc = (activity.pictures && activity.pictures.length > 0) 
                         ? activity.pictures[0] 
                         : 'pictures/logo2.png'; 
 
-                    // Get price or default
                     const price = (activity.price && activity.price.amount) 
                         ? parseFloat(activity.price.amount).toFixed(2) + ' ' + activity.price.currencyCode 
                         : 'Check Price';
 
-                    // Get Booking Link
                     const link = activity.bookingLink || '#';
 
-                    // Create HTML for the card
                     const cardHTML = `
                         <div class="activity-card">
                             <img src="${imageSrc}" class="activity-img-top" alt="${activity.name}">
@@ -1018,7 +936,6 @@ if ($is_logged_in) {
         }
     }
 
-    // 2. Horizontal Scrolling Logic
     function scrollActivities(amount) {
         const container = document.getElementById('activityScroller');
         container.scrollBy({
@@ -1028,49 +945,31 @@ if ($is_logged_in) {
     }
 </script>
 <script>
-    // 2. Horizontal Scrolling Logic for Activities
-    function scrollActivities(amount) {
-        const container = document.getElementById('activityScroller');
-        container.scrollBy({
-            left: amount,
-            behavior: 'smooth'
-        });
-    }
-</script>
-<script>
-    // --- SEARCH ENGINE LOGIC ---
     const searchInput = document.getElementById('navbarSearch');
     const searchModal = document.getElementById('searchResults');
     const searchForm  = document.getElementById('searchForm');
     let searchTimeout;
 
-    // Function to perform the search
     function performSearch(term) {
-        // Validation: Don't search if empty or too short
         if (!term || term.length < 3) {
             searchModal.style.display = 'none';
             return;
         }
 
-        // Show Loading UI
         searchModal.style.display = 'block';
         searchModal.innerHTML = '<div class="p-3 text-center text-muted"><i class="fa-solid fa-circle-notch fa-spin"></i> Searching...</div>';
 
-        // EXECUTE FETCH
-        // FIX: We use 'term' here (passed from the function), not 'query'
         fetch('search_engine.php?term=' + encodeURIComponent(term))
             .then(response => response.json())
             .then(data => {
-                searchModal.innerHTML = ''; // Clear loading spinner
+                searchModal.innerHTML = ''; 
 
-                // Handle Backend Errors (e.g., API limits)
                 if (data.error) {
                     console.error("Backend Error:", data.error);
                     searchModal.innerHTML = `<div class="p-3 text-center text-danger">Error: ${data.error}</div>`;
                     return;
                 }
 
-                // Display Results
                 if (data.length > 0) {
                     let html = '';
                     data.forEach(item => {
@@ -1086,7 +985,6 @@ if ($is_logged_in) {
                     });
                     searchModal.innerHTML = html;
                 } else {
-                    // No Results
                     searchModal.innerHTML = '<div class="p-3 text-center text-muted">No results found for "' + term + '".</div>';
                 }
             })
@@ -1096,31 +994,25 @@ if ($is_logged_in) {
             });
     }
 
-    // --- EVENT LISTENERS ---
     if (searchInput) {
-        // 1. LIVE SEARCH (Type & Wait)
         searchInput.addEventListener('input', function() {
             const term = this.value.trim();
             
-            // Clear the previous timer so we don't search on every single keystroke
             clearTimeout(searchTimeout);
             
-            // Set a new timer to search after 500ms of silence
             searchTimeout = setTimeout(() => {
                 performSearch(term);
             }, 500); 
         });
 
-        // 2. BUTTON CLICK / ENTER KEY
         if (searchForm) {
             searchForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Stop page reload
+                e.preventDefault(); 
                 const term = searchInput.value.trim();
                 performSearch(term);
             });
         }
 
-        // 3. HIDE MODAL (Click Outside)
         document.addEventListener('click', function(e) {
             if (!searchInput.contains(e.target) && !searchModal.contains(e.target)) {
                 searchModal.style.display = 'none';
@@ -1130,7 +1022,6 @@ if ($is_logged_in) {
 </script>
 
 <script>
-    /* --- SPECIFIC SCRIPT FOR ATTRACTIONS SECTION --- */
 function searchAttractions() {
     const input = document.getElementById('attractionInput');
     const container = document.getElementById('attractionResults');
@@ -1141,7 +1032,6 @@ function searchAttractions() {
         return;
     }
 
-    // 1. Show Loading State
     container.innerHTML = `
         <div class="col-12 text-center py-5">
             <div class="spinner-border text-warning" role="status"></div>
@@ -1149,11 +1039,10 @@ function searchAttractions() {
         </div>
     `;
 
-    // 2. Fetch Data
     fetch('get_attractions.php?term=' + encodeURIComponent(term))
         .then(response => response.json())
         .then(data => {
-            container.innerHTML = ''; // Clear loading
+            container.innerHTML = ''; 
 
             if (data.error) {
                 container.innerHTML = `<div class="col-12 text-center text-danger">Error: ${data.error}</div>`;
@@ -1161,9 +1050,7 @@ function searchAttractions() {
             }
 
             if (data.length > 0) {
-                // 3. Generate Cards (Matches "Top Picks" Design exactly)
                 data.forEach(item => {
-                    // Random Rating (4.0 - 5.0)
                     const rating = (Math.random() * (5.0 - 4.0) + 4.0).toFixed(1);
 
                     const cardHTML = `
@@ -1203,7 +1090,6 @@ function searchAttractions() {
                     container.innerHTML += cardHTML;
                 });
             } else {
-                // Empty State
                 container.innerHTML = `
                     <div class="col-12 text-center py-5">
                         <i class="fa-regular fa-face-frown fa-3x mb-3 text-muted"></i>
@@ -1219,7 +1105,6 @@ function searchAttractions() {
         });
 }
 
-// Enable Enter Key
 document.getElementById('attractionInput').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         searchAttractions();

@@ -1,18 +1,13 @@
 <?php
-// get_activities.php
-
-// 1. SILENCE PHP ERRORS
 error_reporting(0);
 ini_set('display_errors', 0);
 
 header('Content-Type: application/json');
 
-// 2. Configuration
 $apiKey = "nry6rhtrc3BzW7AklTuAVXvO3hHWrCc1";
 $apiSecret = "Z4vvo9EYn9AOzTzm";
 $authUrl = "https://test.api.amadeus.com/v1/security/oauth2/token";
 
-// 3. Helper Function
 function callApi($url, $postFields = null, $headers = []) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -38,7 +33,6 @@ function callApi($url, $postFields = null, $headers = []) {
     return $response;
 }
 
-// 4. Get Access Token
 $authResponse = callApi($authUrl, http_build_query([
     'grant_type' => 'client_credentials',
     'client_id' => $apiKey,
@@ -54,27 +48,24 @@ if (!isset($tokenData['access_token'])) {
 
 $accessToken = $tokenData['access_token'];
 
-// 5. EXPANDED DESTINATIONS LIST
-// A mix of Local, Asian, and Global hotspots
 $destinations = [
     ["name" => "Manila",    "lat" => 14.5995, "long" => 120.9842],
-    ["name" => "Cebu",      "lat" => 10.3157, "long" => 123.8854], // Local
+    ["name" => "Cebu",      "lat" => 10.3157, "long" => 123.8854],
     ["name" => "Tokyo",     "lat" => 35.6762, "long" => 139.6503],
-    ["name" => "Singapore", "lat" => 1.3521,  "long" => 103.8198], // Asia
+    ["name" => "Singapore", "lat" => 1.3521,  "long" => 103.8198],
     ["name" => "Bangkok",   "lat" => 13.7563, "long" => 100.5018],
     ["name" => "Dubai",     "lat" => 25.276987, "long" => 55.296249],
-    ["name" => "Paris",     "lat" => 48.8566, "long" => 2.3522],   // Europe
+    ["name" => "Paris",     "lat" => 48.8566, "long" => 2.3522],
     ["name" => "London",    "lat" => 51.5074, "long" => -0.1278],
-    ["name" => "New York",  "lat" => 40.7128, "long" => -74.0060]  // US
+    ["name" => "New York",  "lat" => 40.7128, "long" => -74.0060]
 ];
 
 $diverseActivities = [];
 
-// 6. Fetch 1 Top Activity from Each Place
 foreach ($destinations as $place) {
     $lat = $place['lat'];
     $long = $place['long'];
-    $radius = 15; // Increased radius slightly to find better items
+    $radius = 15;
 
     $url = "https://test.api.amadeus.com/v1/shopping/activities?latitude=$lat&longitude=$long&radius=$radius&page[limit]=1";
     
@@ -89,6 +80,5 @@ foreach ($destinations as $place) {
     }
 }
 
-// 7. Output Final JSON
 echo json_encode(['data' => $diverseActivities]);
 ?>
