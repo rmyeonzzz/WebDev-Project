@@ -13,8 +13,8 @@ try {
         exit;
     }
 
-    $clientId = "nry6rhtrc3BzW7AklTuAVXvO3hHWrCc1"; 
-    $clientSecret = "Z4vvo9EYn9AOzTzm"; 
+    $clientId = "zOYLbxeukDPIjI7q8Ikl3bfEJFVahGbW"; 
+    $clientSecret = "IFH8zBQlYmdlS8Sg"; 
 
     function callApi($url, $token = null, $postFields = null) {
         $ch = curl_init($url);

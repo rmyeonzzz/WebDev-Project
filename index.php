@@ -792,50 +792,49 @@ if ($is_logged_in) {
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
-
     <script src="script.js"></script>
-    
-    <script>
-            const navbar = document.querySelector(".navbar-container");
-            function checkScroll() {
-                if (window.scrollY > 50) {
-                    navbar.classList.add("scrolled");
-                } else {
-                    navbar.classList.remove("scrolled");
-                }
+
+ <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const navbar = document.querySelector(".navbar-container");
+        function checkScroll() {
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
             }
-            checkScroll();
-            window.addEventListener("scroll", checkScroll);
+        }
+        checkScroll();
+        window.addEventListener("scroll", checkScroll);
+    });
+</script>
+<script>
+        function toggleReturnDate() {
+            var tripType = document.getElementById("travel_type");
+            var returnInput = document.getElementById("returnDate");
 
-            // 2. Return Date Toggle Logic
-            const tripType = document.getElementById("travel_type");
-            const returnInput = document.getElementById("returnDate");
+            if (!tripType || !returnInput) return; 
 
-            function toggleReturnDate() {
-                if (!tripType || !returnInput) return;
-
-                if (tripType.value === "One Way") {
-                    returnInput.disabled = true;
-                    returnInput.required = false;
-                    returnInput.value = ""; 
-                    returnInput.style.backgroundColor = "#e9ecef"; 
-                    returnInput.style.cursor = "not-allowed";
-                } else {
-                    returnInput.disabled = false;
-                    returnInput.required = true;
-                    returnInput.style.backgroundColor = "white";
-                    returnInput.style.cursor = "default";
-                }
+            if (tripType.value === "One Way") {
+                returnInput.disabled = true;
+                returnInput.required = false;
+                returnInput.style.backgroundColor = "#e9ecef";
+                returnInput.style.cursor = "not-allowed";
+                returnInput.value = "";
+            } else {
+                returnInput.disabled = false;
+                returnInput.required = true;
+                returnInput.style.backgroundColor = "white";
+                returnInput.style.cursor = "default";
             }
-
-            if (tripType) {
-                // Listen for changes
-                tripType.addEventListener("change", toggleReturnDate);
-                // Run on page load
-                toggleReturnDate();
-            }
-        });
+        }
+        var dropdown = document.getElementById("travel_type");
+        if (dropdown) {
+            dropdown.addEventListener("change", toggleReturnDate);
+            toggleReturnDate();
+        }
     </script>
+
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         const navbar = document.querySelector(".navbar-container");

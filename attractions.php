@@ -2,7 +2,7 @@
 
 function fetchAttractions($query) {
 
-    $rapidApiKey = '76d543e97fmshe6d7b4b9e6300d0p18dbc4jsn179b022e8a2f';
+    $rapidApiKey = 'zOYLbxeukDPIjI7q8Ikl3bfEJFVahGbW';
     $url = 'https://booking-com15.p.rapidapi.com/api/v1/attraction/searchLocation?query=' . urlencode($query) . '&languagecode=en-us';
 
     $ch = curl_init();

@@ -157,21 +157,33 @@ async function searchHotels() {
             <p class="mt-2 text-muted fw-bold">Searching for "${query}"...</p>
         </div>`;
 
-    const apiKey = '329580a304msh4d65ca35ca58b79p10bebfjsnd06f2e179e59';
+    const apiKey = '93433d1ea5msh95f1dcda267fa88p1e342fjsn7bdbd1426f49';
     const apiHost = 'booking-com15.p.rapidapi.com';
 
-    try {
+   try {
         const locUrl = `https://${apiHost}/api/v1/hotels/searchDestination?query=${encodeURIComponent(query)}`;
         const locRes = await fetch(locUrl, {
             method: 'GET',
-            headers: { 'x-rapidapi-host': apiHost, 'x-rapidapi-key': apiKey }
+            headers: { 
+                'X-RapidAPI-Host': apiHost, // Use Capitalized Headers
+                'X-RapidAPI-Key': apiKey 
+            }
         });
-        const locJson = await locRes.json();
 
-        if (!locJson.status || !locJson.data || locJson.data.length === 0) {
-            resultsContainer.innerHTML = '<div class="alert alert-warning text-center">No locations found. Please try a specific city name.</div>';
+        // 🛑 CRITICAL CHECK FOR 403
+        if (locRes.status === 403) {
+            resultsContainer.innerHTML = `
+                <div class="col-12 text-center py-4">
+                    <div class="alert alert-danger border-0 shadow-sm">
+                        <i class="fas fa-lock me-2"></i>
+                        <strong>Access Denied (403).</strong><br>
+                        Please log in to RapidAPI and click "Subscribe to Test" on the Booking.com 15 API Pricing page.
+                    </div>
+                </div>`;
             return;
         }
+
+        const locJson = await locRes.json();
 
         let destData = locJson.data.find(item => item.search_type === 'city') || locJson.data[0];
 
@@ -211,53 +223,62 @@ async function searchHotels() {
         resultsContainer.innerHTML = '';
         const hotels = hotelJson.data?.hotels || hotelJson.data?.result || [];
 
-        if (hotels.length > 0) {
-            hotels.forEach(hotel => {
-                let imageUrl = 'https://via.placeholder.com/300x200?text=No+Image';
-                if (hotel.property?.photoUrls?.[0]) imageUrl = hotel.property.photoUrls[0];
-                else if (hotel.main_photo_url) imageUrl = hotel.main_photo_url;
+resultsContainer.innerHTML = ''; // Clear results
+resultsContainer.className = "row g-4"; // Ensure row class is applied for wrapping
 
-                const name = hotel.property?.name || hotel.hotel_name || "Unnamed Hotel";
-                const score = hotel.property?.reviewScore || hotel.review_score || '-';
+    if (hotels.length > 0) {
+    hotels.forEach(hotel => {
+    // 1. FIRST, define imageUrl logic
+    let imageUrl = 'https://via.placeholder.com/300x200?text=No+Image';
+    if (hotel.property && hotel.property.photoUrls && hotel.property.photoUrls[0]) {
+        imageUrl = hotel.property.photoUrls[0];
+    } else if (hotel.main_photo_url) {
+        imageUrl = hotel.main_photo_url;
+    }
 
-                let price = "Check Price";
-                if (hotel.property?.priceBreakdown) {
-                    price = `$${Math.round(hotel.property.priceBreakdown.grossPrice.value)}`;
-                }
+    // 2. Define other variables safely
+    const name = hotel.property?.name || hotel.hotel_name || "Unnamed Hotel";
+    const score = hotel.property?.reviewScore || hotel.review_score || '-';
+    let price = "Check Price";
+    if (hotel.property?.priceBreakdown) {
+        price = `$${Math.round(hotel.property.priceBreakdown.grossPrice.value)}`;
+    }
 
-                const card = `
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                            <div style="height: 200px; position: relative;">
-                                <img 
-                                    src="${imageUrl}" 
-                                    class="w-100 h-100 object-fit-cover" 
-                                    alt="${name}" 
-                                    referrerpolicy="no-referrer"
-                                    onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Image+Unavailable';"
-                                >
-                                <span class="badge bg-primary position-absolute top-0 end-0 m-3 shadow-sm">${score}</span>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold text-truncate">${name}</h5>
-                                <p class="text-muted small mb-3"><i class="fas fa-map-marker-alt text-danger me-1"></i> ${destData.name}</p>
-                                
-                                <div class="mt-auto d-flex justify-content-between align-items-end">
-                                    <div>
-                                        <small class="text-muted d-block" style="font-size: 0.8rem;">Est. per night</small>
-                                        <span class="fw-bold text-dark fs-5">${price}</span>
-                                    </div>
-                                    <a href="hotel_details.php?id=${hotel.hotel_id}&image=${encodeURIComponent(imageUrl)}&name=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}" 
-                                        class="btn btn-outline-primary fw-bold rounded-pill px-3">
-                                        View Details
-                                    </a>
-                                </div>
-                            </div>
+    // 3. NOW use the variables in your template string
+    const card = `
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="hotel-image-wrapper" style="position: relative; width: 100%; padding-top: 100%; overflow: hidden;">
+                    <img 
+                        src="${imageUrl}" 
+                        class="card-img-top" 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"
+                        alt="${name}" 
+                        onerror="this.src='https://via.placeholder.com/400x400?text=No+Image';"
+                    >
+                    <span class="badge bg-primary position-absolute top-0 end-0 m-3 shadow-sm">${score}</span>
+                </div>
+                <div class="card-body d-flex flex-column p-4">
+                    <h5 class="card-title fw-bold text-truncate mb-1">${name}</h5>
+                    <p class="text-muted small mb-3"><i class="fas fa-map-marker-alt text-danger me-1"></i> ${destData.name}</p>
+                    
+                    <div class="mt-auto d-flex justify-content-between align-items-end pt-3 border-top">
+                        <div>
+                            <small class="text-muted d-block" style="font-size: 0.75rem;">Est. per night</small>
+                            <span class="fw-bold text-dark fs-5">${price}</span>
                         </div>
-                    </div>`;
-                resultsContainer.innerHTML += card;
-            });
-        } else {
+                        <a href="hotel_details.php?id=${hotel.hotel_id}&image=${encodeURIComponent(imageUrl)}&name=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}" 
+                            class="btn btn-primary fw-bold rounded-pill px-3">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    resultsContainer.innerHTML += card;
+});
+}
+        else {
             resultsContainer.innerHTML = `
                 <div class="col-12 text-center mt-4">
                     <div class="alert alert-light border shadow-sm">

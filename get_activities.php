@@ -4,8 +4,8 @@ ini_set('display_errors', 0);
 
 header('Content-Type: application/json');
 
-$apiKey = "nry6rhtrc3BzW7AklTuAVXvO3hHWrCc1";
-$apiSecret = "Z4vvo9EYn9AOzTzm";
+$apiKey = "zOYLbxeukDPIjI7q8Ikl3bfEJFVahGbW";
+$apiSecret = "IFH8zBQlYmdlS8Sg";
 $authUrl = "https://test.api.amadeus.com/v1/security/oauth2/token";
 
 function callApi($url, $postFields = null, $headers = []) {

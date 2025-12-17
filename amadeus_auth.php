@@ -1,8 +1,8 @@
 <?php
 function getAmadeusToken() {
 
-    $apiKey = 'kYXb7Sbl9p17m2TIr94y0XnchBKBukkc';
-    $apiSecret = 'OGhQkszvZpXkFIqJ'; 
+    $apiKey = 'zOYLbxeukDPIjI7q8Ikl3bfEJFVahGbW';
+    $apiSecret = 'IFH8zBQlYmdlS8Sg'; 
     
     $url = 'https://test.api.amadeus.com/v1/security/oauth2/token';
 
